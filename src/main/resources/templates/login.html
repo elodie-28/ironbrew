@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Sign In</title>
+    <th:block th:insert="~{layout.html :: headerfiles}">
+    </th:block>
+</head>
+<body>
+<header th:insert="~{layout.html :: header}"></header>
+<main class="d-flex container justify-content-center align-items-center">
+    <div class="card shadow p-4 mt-4" style="width: 100%; max-width: 400px;">
+        <h3 class="text-center mb-4">Sign In</h3>
+        <form th:action="@{/login}" method="post">
+            <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="email" name="email">
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password">
+            </div>
+            <button type="submit" class="btn btn-primary">Sign In</button>
+            <hr/>
+            <p class="text-center mt-3 mb-0">
+                Don’t have an account? <a href="/register" class="text-decoration-none">Sign up</a>
+            </p>
+        </form>
+    </div>
+</main>
+</body>
+</html>
