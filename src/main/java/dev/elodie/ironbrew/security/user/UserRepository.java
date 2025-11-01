@@ -1,4 +1,4 @@
-package dev.elodie.ironbrew.security;
+package dev.elodie.ironbrew.security.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

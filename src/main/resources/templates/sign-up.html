@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Sign Up</title>
+  <th:block th:insert="~{layout.html :: headerfiles}">
+  </th:block>
+</head>
+<body>
+<header th:insert="~{layout.html :: header}"></header>
+<main class="d-flex container justify-content-center align-items-center">
+  <div class="card shadow p-4 mt-4" style="width: 100%; max-width: 400px;">
+    <h3 class="text-center mb-4">Sign Up</h3>
+    <form th:action="@{/sign-up}" th:object="${registerRequest}" method="post">
+      <div class="mb-3">
+        <label for="email" class="form-label">Email address</label>
+        <input type="email" class="form-control" th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'" id="email" name="email" th:field="*{email}" required/>
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'" id="password" name="password" th:field="*{password}" required/>
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+      </div>
+      <div class="mb-3">
+        <label for="confirmationPassword" class="form-label">Confirm your password</label>
+        <input type="password" class="form-control" th:classappend="${#fields.hasErrors('confirmationPassword')} ? 'is-invalid'" id="confirmationPassword" name="confirmationPassword" th:field="*{confirmationPassword}" required/>
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('confirmationPassword')}" th:errors="*{confirmationPassword}"></div>
+      </div>
+      <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" class="form-control" th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'" id="name" name="name" th:field="*{name}" required/>
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+      </div>
+      <div class="mb-3">
+        <label for="website" class="form-label">Website</label>
+        <input type="text" class="form-control" th:classappend="${#fields.hasErrors('website')} ? 'is-invalid'" id="website" name="website" th:field="*{website}"/>
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('website')}" th:errors="*{website}"></div>
+      </div>
+      <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="isEmailPublic" name="isEmailPublic" th:field="*{emailPublic}"/>
+        <label for="isEmailPublic" class="form-label">Is your email public?</label>
+      </div>
+      <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+      </div>
+    </form>
+  </div>
+</main>
+</body>
+</html>
