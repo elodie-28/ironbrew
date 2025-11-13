@@ -14,17 +14,21 @@ import java.util.UUID;
 @Table(
         name = "users",
         uniqueConstraints = {
-                @UniqueConstraint(name = User.UNIQUE_EMAIL_CONSTRAINT, columnNames = {"email"})
+                @UniqueConstraint(name = User.UNIQUE_EMAIL_CONSTRAINT, columnNames = {"email"}),
+                @UniqueConstraint(name = User.UNIQUE_NAME_CONSTRAINT, columnNames = {"name"})
         }
 )
 public class User implements UserDetails {
     public static final String UNIQUE_EMAIL_CONSTRAINT = "email_users_uk";
+    public static final String UNIQUE_NAME_CONSTRAINT = "name_users_uk";
 
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Basic(optional = false)
     private String email;
 
+    @Basic(optional = false)
     private String name;
 
     private String password;
@@ -32,6 +36,7 @@ public class User implements UserDetails {
     private String website;
 
     @ColumnDefault("false")
+    @Basic(optional = false)
     private boolean isEmailPublic = false;
 
     private String confirmationToken;

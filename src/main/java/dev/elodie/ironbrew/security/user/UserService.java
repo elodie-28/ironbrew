@@ -2,6 +2,7 @@ package dev.elodie.ironbrew.security.user;
 
 import dev.elodie.ironbrew.exception.EmailAlreadyTakenException;
 import dev.elodie.ironbrew.exception.InvalidTokenException;
+import dev.elodie.ironbrew.exception.NameAlreadyTakenException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,8 @@ public class UserService {
         }catch(DataIntegrityViolationException e){
             if(e.getMessage().contains(User.UNIQUE_EMAIL_CONSTRAINT)){
                 throw new EmailAlreadyTakenException();
+            } else if (e.getMessage().contains(User.UNIQUE_NAME_CONSTRAINT)) {
+                throw new NameAlreadyTakenException();
             }
         }
         return null;

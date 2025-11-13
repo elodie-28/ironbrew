@@ -2,6 +2,7 @@ package dev.elodie.ironbrew.security.user;
 
 import dev.elodie.ironbrew.exception.EmailAlreadyTakenException;
 import dev.elodie.ironbrew.exception.InvalidTokenException;
+import dev.elodie.ironbrew.exception.NameAlreadyTakenException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.context.ApplicationEventPublisher;
@@ -47,6 +48,9 @@ public class UserController {
             eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user));
         }catch (EmailAlreadyTakenException e){
             bindingResult.rejectValue("email", "emailAlreadyTaken", "Email is already taken");
+            return "sign-up";
+        }catch (NameAlreadyTakenException e){
+            bindingResult.rejectValue("name", "nameAlreadyTaken", "Name is already taken");
             return "sign-up";
         }
 
