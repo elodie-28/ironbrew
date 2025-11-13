@@ -7,5 +7,9 @@ import org.mapstruct.MappingConstants;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface UserMapper {
     @Mapping(source = "name", target = "name")
+    @Mapping(
+            target = "website",
+            expression = "java(registerRequest.getWebsite().isEmpty() ? null : registerRequest.getWebsite())"
+    )
     User toUser(RegisterRequest registerRequest);
 }

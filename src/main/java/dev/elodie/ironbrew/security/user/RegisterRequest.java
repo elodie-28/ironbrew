@@ -6,8 +6,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.URL;
 
-//TODO proper validation
-//TODO email verification
 @ConfirmationPassword
 public class RegisterRequest {
     @NotBlank(message = "Email is required")

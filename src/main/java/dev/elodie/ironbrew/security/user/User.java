@@ -122,4 +122,9 @@ public class User implements UserDetails {
     public String getUsername() {
         return name;
     }
+
+    @Override
+    public boolean isEnabled(){
+        return confirmedAt != null;
+    }
 }

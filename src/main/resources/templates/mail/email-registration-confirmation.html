@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:remove="all">Template for HTML email with inline image</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        .btn-wrap { text-align:center; padding:12px 0 20px 0; }
+        .btn { display:inline-block; font-weight:600; text-decoration:none; padding:12px 20px; border-radius:6px; }
+        .btn-primary { background:#2563eb; color:#ffffff; }
+    </style>
+</head>
+<body>
+<p>
+    Thanks for creating an account with <strong>Ironbrew</strong>.
+    To complete your registration we just need to verify your email address.
+</p>
+<div class="btn-wrap">
+    <a th:href="${verificationLink}" class="btn btn-primary" target="_blank">Verify your email</a>
+</div>
+</body>
+</html>
