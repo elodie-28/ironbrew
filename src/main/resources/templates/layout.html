@@ -9,15 +9,14 @@
 <div th:fragment="header">
     <nav class="navbar border-bottom">
         <div class="container-fluid">
-            <a class="navbar-brand" th:href="@{/}">Navbar</a>
+            <a class="navbar-brand" th:href="@{/}">Ironbrew</a>
             <div sec:authorize="!isAuthenticated()" class="d-flex">
                 <a th:href="@{/sign-up}" class="btn btn-light me-2">Sign Up</a>
                 <a th:href="@{/login}" class="btn btn-outline-dark">Sign In</a>
             </div>
             <div sec:authorize="isAuthenticated()" class="dropdown d-flex">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://placehold.co/30" alt="User Avatar" class="rounded-circle me-2">
-<!--                        <span sec:authentication="name"></span>-->
+                    Menu
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li><a class="dropdown-item" href="#">My Account</a></li>
