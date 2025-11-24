@@ -27,7 +27,7 @@ public class SecurityConfig {
                                 "/webjars/**",
                                 "/sign-up",
                                 "/error",
-                                "/registrationConfirm"
+                                "/verify"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

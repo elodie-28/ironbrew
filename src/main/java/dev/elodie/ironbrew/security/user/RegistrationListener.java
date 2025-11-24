@@ -3,7 +3,6 @@ package dev.elodie.ironbrew.security.user;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.context.ApplicationListener;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -43,7 +42,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
         String recipientAddress = user.getEmail();
         String subject = "Registration Confirmation";
         String appUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
-        String verificationLink = appUrl + "/registrationConfirm?token=" + token;
+        String verificationLink = appUrl + "/verify?token=" + token;
 
         final Context ctx = new Context();
         ctx.setVariable("verificationLink", verificationLink);

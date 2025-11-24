@@ -6,6 +6,7 @@ import dev.elodie.ironbrew.exception.NameAlreadyTakenException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Controller
@@ -57,12 +59,12 @@ public class UserController {
         return "redirect:/?sign_up_success";
     }
 
-    @GetMapping("/registrationConfirm")
-    public String registrationConfirm(@RequestParam("token") String token) {
+    @GetMapping("/verify")
+    public String verify(@RequestParam("token") String token) {
         try{
             userService.confirmToken(token);
         } catch (InvalidTokenException e){
-            return "registration-confirmation-invalid";
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
 
 

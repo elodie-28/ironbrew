@@ -7,9 +7,10 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.time.Duration;
 import java.time.OffsetDateTime;
-import java.util.UUID;
+import java.util.Base64;
 
 @Service
 public class UserService {
@@ -39,7 +40,12 @@ public class UserService {
     }
 
     public String createToken(User user) {
-        String token = UUID.randomUUID().toString();
+        SecureRandom secureRandom = new SecureRandom();
+        byte[] bytes = new byte[48]; // 48 bytes → 64 Base64 characters
+        secureRandom.nextBytes(bytes);
+
+        String token = Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
+
         user.setConfirmationToken(token);
         user.setConfirmationSentAt(OffsetDateTime.now());
         userRepository.save(user);
