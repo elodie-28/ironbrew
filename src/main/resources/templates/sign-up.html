@@ -18,12 +18,8 @@
       </div>
       <div class="mb-3">
         <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
-        <input type="password" class="form-control" th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'" id="password" name="password" th:field="*{password}" required/>
+        <input type="password" class="form-control" th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'" id="password" name="password" th:field="*{password}" required aria-describedby="passwordHelpBlock"/>
         <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
-      </div>
-      <div class="mb-3">
-        <label for="confirmationPassword" class="form-label">Confirm your password <span class="text-danger">*</span></label>
-        <input type="password" class="form-control" th:classappend="${#fields.hasErrors('confirmationPassword')} ? 'is-invalid'" id="confirmationPassword" name="confirmationPassword" th:field="*{confirmationPassword}" required aria-describedby="passwordHelpBlock"/>
         <div id="passwordHelpBlock" class="form-text">
           Your password must be at least 8 characters long and contain:
           <ul>
@@ -33,6 +29,10 @@
             <li>A special character from the following: #?!@$%^&*-</li>
           </ul>
         </div>
+      </div>
+      <div class="mb-3">
+        <label for="confirmationPassword" class="form-label">Confirm your password <span class="text-danger">*</span></label>
+        <input type="password" class="form-control" th:classappend="${#fields.hasErrors('confirmationPassword')} ? 'is-invalid'" id="confirmationPassword" name="confirmationPassword" th:field="*{confirmationPassword}" required/>
         <div class="invalid-feedback" th:if="${#fields.hasErrors('confirmationPassword')}" th:errors="*{confirmationPassword}"></div>
       </div>
       <div class="mb-3">
