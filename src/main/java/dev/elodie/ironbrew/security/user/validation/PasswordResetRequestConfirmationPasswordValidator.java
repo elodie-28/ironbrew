@@ -1,11 +1,12 @@
 package dev.elodie.ironbrew.security.user.validation;
 
+import dev.elodie.ironbrew.security.user.PasswordResetRequest;
 import dev.elodie.ironbrew.security.user.RegisterRequest;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class ConfirmationPasswordValidator implements
-        ConstraintValidator<ConfirmationPassword, RegisterRequest> {
+public class PasswordResetRequestConfirmationPasswordValidator implements
+        ConstraintValidator<ConfirmationPassword, PasswordResetRequest> {
     private String message;
 
     @Override
@@ -14,8 +15,8 @@ public class ConfirmationPasswordValidator implements
     }
 
     @Override
-    public boolean isValid(RegisterRequest registerRequest, ConstraintValidatorContext constraintValidatorContext) {
-        boolean isValid = registerRequest.getPassword().equals(registerRequest.getConfirmationPassword());
+    public boolean isValid(PasswordResetRequest passwordResetRequest, ConstraintValidatorContext constraintValidatorContext) {
+        boolean isValid = passwordResetRequest.getPassword().equals(passwordResetRequest.getConfirmationPassword());
 
         if(!isValid){
             constraintValidatorContext.disableDefaultConstraintViolation();

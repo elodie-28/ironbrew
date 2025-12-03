@@ -45,6 +45,10 @@ public class User implements UserDetails {
 
     private OffsetDateTime confirmationSentAt;
 
+    private String passwordResetToken;
+
+    private OffsetDateTime passwordResetSentAt;
+
     public void setId(UUID id) {
         this.id = id;
     }
@@ -116,6 +120,22 @@ public class User implements UserDetails {
 
     public OffsetDateTime getConfirmedAt() {
         return confirmedAt;
+    }
+
+    public String getPasswordResetToken() {
+        return passwordResetToken;
+    }
+
+    public void setPasswordResetToken(String passwordResetToken) {
+        this.passwordResetToken = passwordResetToken;
+    }
+
+    public OffsetDateTime getPasswordResetSentAt() {
+        return passwordResetSentAt;
+    }
+
+    public void setPasswordResetSentAt(OffsetDateTime passwordResetSentAt) {
+        this.passwordResetSentAt = passwordResetSentAt;
     }
 
     @Override

@@ -3,7 +3,8 @@ package dev.elodie.ironbrew.security.user;
 import dev.elodie.ironbrew.exception.EmailAlreadyTakenException;
 import dev.elodie.ironbrew.exception.InvalidTokenException;
 import dev.elodie.ironbrew.exception.NameAlreadyTakenException;
-import jakarta.servlet.http.HttpServletRequest;
+import dev.elodie.ironbrew.exception.UserNotFoundException;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Controller
 public class UserController {
@@ -67,7 +67,45 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
 
-
         return "registration-confirmation";
+    }
+
+    @GetMapping("/forgot-password")
+    public String passwordReset(Model model) {
+        model.addAttribute("forgotPasswordRequest", new ForgotPasswordRequest());
+        return "forgot-password";
+    }
+
+    @PostMapping("/forgot-password")
+    public String forgotPassword(@Valid @ModelAttribute ForgotPasswordRequest forgotPasswordRequest) throws MessagingException {
+        try{
+            userService.createPasswordResetToken(forgotPasswordRequest);
+        } catch (UserNotFoundException e){
+            return "redirect:/forgot-password?sent";
+        }
+
+        return "redirect:/forgot-password?sent";
+    }
+
+    @GetMapping("/password-reset")
+    public String passwordReset(Model model, @RequestParam("token") String token) {
+        PasswordResetRequest passwordResetRequest = new PasswordResetRequest();
+        passwordResetRequest.setToken(token);
+        model.addAttribute("passwordResetRequest", passwordResetRequest);
+        return "password-reset";
+    }
+
+    @PostMapping("/password-reset")
+    public String passwordResetPost(@Valid @ModelAttribute PasswordResetRequest passwordResetRequest, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "password-reset";
+        }
+
+        try{
+            userService.changePassword(passwordResetRequest);
+        }catch (UserNotFoundException | InvalidTokenException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return "redirect:/?password_reset_success";
     }
 }

@@ -3,9 +3,18 @@ package dev.elodie.ironbrew.security.user;
 import dev.elodie.ironbrew.exception.EmailAlreadyTakenException;
 import dev.elodie.ironbrew.exception.InvalidTokenException;
 import dev.elodie.ironbrew.exception.NameAlreadyTakenException;
+import dev.elodie.ironbrew.exception.UserNotFoundException;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.validation.Valid;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import java.security.SecureRandom;
 import java.time.Duration;
@@ -17,11 +26,21 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
+    private final JavaMailSender mailSender;
+    private final TemplateEngine templateEngine;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, UserMapper userMapper) {
+    public UserService(
+            UserRepository userRepository,
+            PasswordEncoder passwordEncoder,
+            UserMapper userMapper,
+            JavaMailSender mailSender,
+            TemplateEngine templateEngine
+    ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userMapper = userMapper;
+        this.mailSender = mailSender;
+        this.templateEngine = templateEngine;
     }
 
     public User register(RegisterRequest registerRequest) {
@@ -39,7 +58,7 @@ public class UserService {
         return null;
     }
 
-    public String createToken(User user) {
+    public String createConfirmationToken(User user) {
         SecureRandom secureRandom = new SecureRandom();
         byte[] bytes = new byte[48]; // 48 bytes → 64 Base64 characters
         secureRandom.nextBytes(bytes);
@@ -64,9 +83,63 @@ public class UserService {
             throw new InvalidTokenException();
         }
 
-        if(user.getConfirmedAt() == null){
-            user.setConfirmedAt(OffsetDateTime.now());
+        user.setConfirmedAt(OffsetDateTime.now());
+
+        user.setConfirmationToken(null);
+        user.setConfirmationSentAt(null);
+
+        userRepository.save(user);
+    }
+
+    public void createPasswordResetToken(ForgotPasswordRequest forgotPasswordRequest) throws MessagingException {
+        User user = userRepository.findByEmail(forgotPasswordRequest.getEmail()).orElseThrow(UserNotFoundException::new);
+        SecureRandom secureRandom = new SecureRandom();
+        byte[] bytes = new byte[48]; // 48 bytes → 64 Base64 characters
+        secureRandom.nextBytes(bytes);
+
+        String token = Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
+
+        user.setPasswordResetToken(token);
+        user.setPasswordResetSentAt(OffsetDateTime.now());
+        userRepository.save(user);
+
+        sendForgotPasswordEmail(user);
+    }
+
+    private void sendForgotPasswordEmail(User user) throws MessagingException {
+        String recipientAddress = user.getEmail();
+        String subject = "Reset Your Password";
+        String appUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+        String passwordResetLink = appUrl + "/password-reset?token=" + user.getPasswordResetToken();
+
+        final Context ctx = new Context();
+        ctx.setVariable("passwordResetLink", passwordResetLink);
+
+        final String htmlContent = this.templateEngine.process("mail/email-password-reset.html", ctx);
+
+        final MimeMessage mimeMessage = this.mailSender.createMimeMessage();
+        final MimeMessageHelper message =
+                new MimeMessageHelper(mimeMessage, true, "UTF-8");
+        message.setSubject(subject);
+        message.setFrom("no-reply@ironbrew.com");
+        message.setTo(recipientAddress);
+        message.setText(htmlContent, true);
+        mailSender.send(mimeMessage);
+    }
+
+    public void changePassword(PasswordResetRequest passwordResetRequest) {
+        User user = userRepository.findByPasswordResetToken(passwordResetRequest.getToken()).orElseThrow(UserNotFoundException::new);
+
+        //if the token has been sent more than 15min before now, then the token is invalid
+        if(Math.abs(Duration.between(user.getPasswordResetSentAt(), OffsetDateTime.now()).toMinutes()) > 15){
+            throw new InvalidTokenException();
         }
+
+        user.setPassword(passwordEncoder.encode(passwordResetRequest.getPassword()));
+
+        //delete the password reset token from the db so it's not reusable
+        user.setPasswordResetToken(null);
+        user.setPasswordResetSentAt(null);
 
         userRepository.save(user);
     }

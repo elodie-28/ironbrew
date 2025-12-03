@@ -37,7 +37,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 
     private void confirmRegistration(OnRegistrationCompleteEvent event) throws MessagingException {
         User user = event.getUser();
-        String token = userService.createToken(user);
+        String token = userService.createConfirmationToken(user);
 
         String recipientAddress = user.getEmail();
         String subject = "Registration Confirmation";
@@ -51,7 +51,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 
         final MimeMessage mimeMessage = this.mailSender.createMimeMessage();
         final MimeMessageHelper message =
-                new MimeMessageHelper(mimeMessage, true, "UTF-8"); // true = multipart
+                new MimeMessageHelper(mimeMessage, true, "UTF-8");
         message.setSubject(subject);
         message.setFrom("no-reply@ironbrew.com");
         message.setTo(recipientAddress);

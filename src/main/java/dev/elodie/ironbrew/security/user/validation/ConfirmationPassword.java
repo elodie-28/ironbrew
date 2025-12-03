@@ -6,7 +6,7 @@ import jakarta.validation.Payload;
 import java.lang.annotation.*;
 
 @Documented
-@Constraint(validatedBy = ConfirmationPasswordValidator.class)
+@Constraint(validatedBy = {RegisterRequestConfirmationPasswordValidator.class, PasswordResetRequestConfirmationPasswordValidator.class})
 @Target( {ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ConfirmationPassword {
