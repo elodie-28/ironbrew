@@ -60,11 +60,7 @@ public class UserService {
     }
 
     public String createConfirmationToken(User user) {
-        SecureRandom secureRandom = new SecureRandom();
-        byte[] bytes = new byte[48]; // 48 bytes → 64 Base64 characters
-        secureRandom.nextBytes(bytes);
-
-        String token = Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
+        String token = generateToken();
 
         user.setConfirmationToken(token);
         user.setConfirmationSentAt(OffsetDateTime.now());
@@ -94,11 +90,8 @@ public class UserService {
 
     public void createPasswordResetToken(ForgotPasswordRequest forgotPasswordRequest) throws MessagingException {
         User user = userRepository.findByEmail(forgotPasswordRequest.getEmail()).orElseThrow(UserNotFoundException::new);
-        SecureRandom secureRandom = new SecureRandom();
-        byte[] bytes = new byte[48]; // 48 bytes → 64 Base64 characters
-        secureRandom.nextBytes(bytes);
 
-        String token = Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
+        String token = generateToken();
 
         user.setPasswordResetToken(token);
         user.setPasswordResetSentAt(OffsetDateTime.now());
@@ -159,5 +152,13 @@ public class UserService {
                 throw new NameAlreadyTakenException();
             }
         }
+    }
+
+    private String generateToken(){
+        SecureRandom secureRandom = new SecureRandom();
+        byte[] bytes = new byte[64];
+        secureRandom.nextBytes(bytes);
+
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes).substring(0, 64);
     }
 }
