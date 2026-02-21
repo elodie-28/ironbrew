@@ -1,9 +1,6 @@
 package dev.elodie.ironbrew.security.user;
 
-import dev.elodie.ironbrew.exception.EmailAlreadyTakenException;
-import dev.elodie.ironbrew.exception.InvalidTokenException;
-import dev.elodie.ironbrew.exception.NameAlreadyTakenException;
-import dev.elodie.ironbrew.exception.UserNotFoundException;
+import dev.elodie.ironbrew.exception.*;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.springframework.context.ApplicationEventPublisher;
@@ -135,5 +132,33 @@ public class UserController {
 
 
         return "redirect:/my-account?success";
+    }
+
+    @GetMapping("/my-account/password")
+    public String myAccountPassword(Model model) {
+        ChangePasswordRequest changePasswordRequest = new ChangePasswordRequest();
+        model.addAttribute("changePasswordRequest", changePasswordRequest);
+        return "my-account-password";
+    }
+
+    @PostMapping("/my-account/password")
+    public String changeMyAccountPassword(
+            Principal principal,
+            @Valid @ModelAttribute ChangePasswordRequest changePasswordRequest,
+            BindingResult bindingResult
+    ) {
+        if (bindingResult.hasErrors()) {
+            return "my-account-password";
+        }
+
+        String email = principal.getName();
+        try{
+            userService.changePassword(changePasswordRequest, email);
+        }catch (PasswordNotMatchingException e){
+            bindingResult.rejectValue("oldPassword", "passwordNotMatching", "The current password is incorrect");
+            return "my-account-password";
+        }
+
+        return "redirect:/my-account/password?success";
     }
 }

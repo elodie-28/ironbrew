@@ -1,13 +1,8 @@
 package dev.elodie.ironbrew.security.user;
 
-import dev.elodie.ironbrew.exception.EmailAlreadyTakenException;
-import dev.elodie.ironbrew.exception.InvalidTokenException;
-import dev.elodie.ironbrew.exception.NameAlreadyTakenException;
-import dev.elodie.ironbrew.exception.UserNotFoundException;
+import dev.elodie.ironbrew.exception.*;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import jakarta.validation.Valid;
-import org.mapstruct.MappingTarget;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -160,5 +155,15 @@ public class UserService {
         secureRandom.nextBytes(bytes);
 
         return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes).substring(0, 64);
+    }
+
+    public void changePassword(ChangePasswordRequest changePasswordRequest, String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
+        if(passwordEncoder.matches(changePasswordRequest.getOldPassword(), user.getPassword())){
+            user.setPassword(passwordEncoder.encode(changePasswordRequest.getNewPassword()));
+            userRepository.save(user);
+        } else {
+            throw new PasswordNotMatchingException();
+        }
     }
 }
