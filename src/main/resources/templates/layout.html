@@ -19,7 +19,7 @@
                     Menu
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="#">My Account</a></li>
+                    <li><a class="dropdown-item" th:href="@{/my-account}">My Account</a></li>
                     <li>
                         <form th:action="@{/logout}" method="post">
                             <button type="submit" class="dropdown-item">Log Out</button>

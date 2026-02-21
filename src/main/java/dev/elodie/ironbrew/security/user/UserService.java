@@ -7,6 +7,7 @@ import dev.elodie.ironbrew.exception.UserNotFoundException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.validation.Valid;
+import org.mapstruct.MappingTarget;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -142,5 +143,21 @@ public class UserService {
         user.setPasswordResetSentAt(null);
 
         userRepository.save(user);
+    }
+
+    public AccountDto findAccountDtoByEmail(String email) {
+        return userRepository.findAccountDtoByEmail(email).orElseThrow(UserNotFoundException::new);
+    }
+
+    public void updateFromAccountDto(AccountDto accountDto, String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
+        userMapper.updateFromAccountDto(accountDto, user);
+        try{
+            userRepository.save(user);
+        }catch (DataIntegrityViolationException e){
+            if(e.getMessage().contains(User.UNIQUE_NAME_CONSTRAINT)){
+                throw new NameAlreadyTakenException();
+            }
+        }
     }
 }

@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.security.Principal;
+
 @Controller
 public class UserController {
     private final UserService userService;
@@ -107,5 +109,31 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         return "redirect:/?password_reset_success";
+    }
+
+    @GetMapping("/my-account")
+    public String myAccount(Model model, Principal principal) {
+        String email = principal.getName();
+        AccountDto user = userService.findAccountDtoByEmail(email);
+        model.addAttribute("user", user);
+        return "my-account";
+    }
+
+    @PostMapping("/my-account")
+    public String updateMyAccount(@Valid @ModelAttribute("user") AccountDto accountDto, BindingResult bindingResult, Principal principal) {
+        if (bindingResult.hasErrors()) {
+            return "my-account";
+        }
+
+        String email = principal.getName();
+        try{
+            userService.updateFromAccountDto(accountDto, email);
+        } catch (NameAlreadyTakenException e){
+            bindingResult.rejectValue("name", "nameAlreadyTaken", "Name is already taken");
+            return "my-account";
+        }
+
+
+        return "redirect:/my-account?success";
     }
 }
