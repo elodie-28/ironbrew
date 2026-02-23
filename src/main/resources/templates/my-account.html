@@ -8,57 +8,63 @@
 <body>
 <header th:insert="~{layout.html :: header}"></header>
 <main class="container">
-    <ul class="nav nav-tabs">
-        <li class="nav-item">
-            <a class="nav-link active" aria-current="page" th:href="@{/my-account}">Profile</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/my-account/password}">Password</a>
-        </li>
-    </ul>
-    <div class="mb-3">
-        <div class="alert alert-success" th:if="${param.success}">Your changes have been applied.</div>
-        <form th:action="@{/my-account}" th:object="${user}" method="post">
-            <div class="my-3">
-                <div class="row mb-3">
-                    <label for="email" class="col-sm-2 col-form-label">Email address</label>
-                    <div class="col-sm-10">
-                        <input type="email" class="form-control"
-                               id="email" name="email" th:field="*{email}" readonly/>
+    <div class="row">
+        <div class="col-2 py-3 border-end border-1">
+            <h3>My Account</h3>
+            <ul class="nav nav-pills flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/my-account}">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/my-account/password}">Password</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-10">
+            <div class="alert alert-success my-2" th:if="${param.success}">Your changes have been applied.</div>
+            <form th:action="@{/my-account}" th:object="${user}" method="post">
+                <div class="my-3">
+                    <div class="row mb-3">
+                        <label for="email" class="col-sm-2 col-form-label">Email address</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control"
+                                   id="email" name="email" th:field="*{email}" readonly/>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="name" class="col-sm-2 col-form-label">Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control"
+                                   th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'" id="name" name="name"
+                                   th:field="*{name}" required/>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}"
+                                 th:errors="*{name}"></div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="website" class="col-sm-2 col-form-label">Website</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control"
+                                   th:classappend="${#fields.hasErrors('website')} ? 'is-invalid'" id="website"
+                                   name="website" th:field="*{website}"/>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('website')}"
+                                 th:errors="*{website}"></div>
+                        </div>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="isEmailPublic" name="isEmailPublic"
+                               th:field="*{emailPublic}" aria-describedby="isEmailPublicHelpBlock"/>
+                        <label for="isEmailPublic" class="form-label">Is your email public?</label>
+                        <div id="isEmailPublicHelpBlock" class="form-text">
+                            If yes, your email will be visible when exporting rules packages to the Datasworn format.
+                        </div>
                     </div>
                 </div>
-                <div class="row mb-3">
-                    <label for="name" class="col-sm-2 col-form-label">Name</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control"
-                               th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'" id="name" name="name"
-                               th:field="*{name}" required/>
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
-                    </div>
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary">Submit your changes</button>
                 </div>
-                <div class="row mb-3">
-                    <label for="website" class="col-sm-2 col-form-label">Website</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control"
-                               th:classappend="${#fields.hasErrors('website')} ? 'is-invalid'" id="website"
-                               name="website" th:field="*{website}"/>
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('website')}"
-                             th:errors="*{website}"></div>
-                    </div>
-                </div>
-                <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="isEmailPublic" name="isEmailPublic"
-                           th:field="*{emailPublic}" aria-describedby="isEmailPublicHelpBlock"/>
-                    <label for="isEmailPublic" class="form-label">Is your email public?</label>
-                    <div id="isEmailPublicHelpBlock" class="form-text">
-                        If yes, your email will be visible when exporting rules packages to the Datasworn format.
-                    </div>
-                </div>
-            </div>
-            <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-primary">Submit your changes</button>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </main>
 </body>
