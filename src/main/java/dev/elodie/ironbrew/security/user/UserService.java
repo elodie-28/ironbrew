@@ -1,6 +1,8 @@
 package dev.elodie.ironbrew.security.user;
 
 import dev.elodie.ironbrew.exception.*;
+import dev.elodie.ironbrew.utils.AppUrlProvider;
+import dev.elodie.ironbrew.utils.TokenGenerator;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -8,14 +10,11 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import java.security.SecureRandom;
 import java.time.Duration;
 import java.time.OffsetDateTime;
-import java.util.Base64;
 
 @Service
 public class UserService {
@@ -24,19 +23,25 @@ public class UserService {
     private final UserMapper userMapper;
     private final JavaMailSender mailSender;
     private final TemplateEngine templateEngine;
+    private final AppUrlProvider appUrlProvider;
+    private final TokenGenerator tokenGenerator;
 
     public UserService(
             UserRepository userRepository,
             PasswordEncoder passwordEncoder,
             UserMapper userMapper,
             JavaMailSender mailSender,
-            TemplateEngine templateEngine
+            TemplateEngine templateEngine,
+            AppUrlProvider appUrlProvider,
+            TokenGenerator tokenGenerator
     ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userMapper = userMapper;
         this.mailSender = mailSender;
         this.templateEngine = templateEngine;
+        this.appUrlProvider = appUrlProvider;
+        this.tokenGenerator = tokenGenerator;
     }
 
     public User register(RegisterRequest registerRequest) {
@@ -55,7 +60,7 @@ public class UserService {
     }
 
     public String createConfirmationToken(User user) {
-        String token = generateToken();
+        String token = tokenGenerator.generateToken();
 
         user.setConfirmationToken(token);
         user.setConfirmationSentAt(OffsetDateTime.now());
@@ -86,7 +91,7 @@ public class UserService {
     public void createPasswordResetToken(ForgotPasswordRequest forgotPasswordRequest) throws MessagingException {
         User user = userRepository.findByEmail(forgotPasswordRequest.getEmail()).orElseThrow(UserNotFoundException::new);
 
-        String token = generateToken();
+        String token = tokenGenerator.generateToken();
 
         user.setPasswordResetToken(token);
         user.setPasswordResetSentAt(OffsetDateTime.now());
@@ -98,7 +103,7 @@ public class UserService {
     private void sendForgotPasswordEmail(User user) throws MessagingException {
         String recipientAddress = user.getEmail();
         String subject = "Reset Your Password";
-        String appUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+        String appUrl = appUrlProvider.getAppUrl();
         String passwordResetLink = appUrl + "/password-reset?token=" + user.getPasswordResetToken();
 
         final Context ctx = new Context();
@@ -147,14 +152,6 @@ public class UserService {
                 throw new NameAlreadyTakenException();
             }
         }
-    }
-
-    private String generateToken(){
-        SecureRandom secureRandom = new SecureRandom();
-        byte[] bytes = new byte[64];
-        secureRandom.nextBytes(bytes);
-
-        return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes).substring(0, 64);
     }
 
     public void changePassword(ChangePasswordRequest changePasswordRequest, String email) {
