@@ -26,10 +26,11 @@ public abstract class RulesPackage {
 
     private String dataswornId;
 
+    @Column(columnDefinition = "text")
     private String description;
 
     @Basic(optional = false)
-    private LocalDate date;
+    private LocalDate releaseDate;
 
     @Basic(optional = false)
     private String url;
@@ -75,11 +76,11 @@ public abstract class RulesPackage {
     }
 
     public LocalDate getDate() {
-        return date;
+        return releaseDate;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     public String getUrl() {

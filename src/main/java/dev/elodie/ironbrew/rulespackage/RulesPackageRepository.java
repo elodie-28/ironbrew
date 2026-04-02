@@ -10,6 +10,6 @@ import java.util.UUID;
 
 @Repository
 public interface RulesPackageRepository extends JpaRepository<RulesPackage, UUID> {
-    @Query("SELECT id, title, dataswornId, description, date, url, license, ruleset FROM Expansion WHERE owner.email = :email")
+    @Query("SELECT id, title, dataswornId, description, releaseDate, url, license, ruleset FROM Expansion WHERE owner.email = :email")
     List<ExpansionDto> findExpansionDtosByOwnerEmail(@P("email") String email);
 }
