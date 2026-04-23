@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Ironbrew - Your Expansions</title>
+    <th:block th:insert="~{layout.html :: headerfiles}">
+    </th:block>
+</head>
+<body>
+<header th:insert="~{layout.html :: header}"></header>
+<main class="container">
+    <h1 class="text-center">Your Expansions</h1>
+    <div class="row row-cols-1 row-cols-md-2 g-4 m-2">
+        <div th:each="expansion: ${expansions}">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${expansion.getTitle()}"></h5>
+                        <p class="card-text" th:text="${#strings.abbreviate(expansion.getDescription(), 160)}">No
+                            description</p>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><b>Type:</b> Expansion</li>
+                        </ul>
+                        <a th:href="@{/expansions/{id}(id=${expansion.getId()})}" class="card-link">View</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center m-2">
+            <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{/your-expansions(page=${currentPage - 1})}">
+                    Previous
+                </a>
+            </li>
+            <li class="page-item"
+                th:each="i : ${#numbers.sequence(1, totalPages)}"
+                th:classappend="${i == currentPage} ? 'active'">
+                <a class="page-link"
+                   th:href="@{/your-expansions(page=${i})}"
+                   th:text="${i}">
+                </a>
+            </li>
+            <li class="page-item"
+                th:classappend="${currentPage + 1 > totalPages} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{/your-expansions(page=${currentPage + 1})}">
+                    Next
+                </a>
+            </li>
+        </ul>
+    </nav>
+</main>
+</body>
+</html>

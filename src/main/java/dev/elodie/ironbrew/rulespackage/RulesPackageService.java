@@ -1,8 +1,11 @@
 package dev.elodie.ironbrew.rulespackage;
 
+import dev.elodie.ironbrew.exception.ResourceNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.UUID;
 
 @Service
 public class RulesPackageService {
@@ -12,7 +15,11 @@ public class RulesPackageService {
         this.rulesPackageRepository = rulesPackageRepository;
     }
 
-    public List<ExpansionDto> getExpansionDtosByOwnerEmail(String email){
-        return rulesPackageRepository.findExpansionDtosByOwnerEmail(email);
+    public Page<ExpansionResponse> getExpansionDtosByOwnerEmail(String email, Pageable pageable){
+        return rulesPackageRepository.findExpansionDtosByOwnerEmail(email, pageable);
+    }
+
+    public ExpansionResponse getExpansionDtoById(UUID id){
+        return rulesPackageRepository.findExpansionDtoById(id).orElseThrow(ResourceNotFoundException::new);
     }
 }

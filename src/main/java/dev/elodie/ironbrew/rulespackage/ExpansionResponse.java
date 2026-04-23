@@ -7,22 +7,22 @@ import java.util.UUID;
 /**
  * DTO for {@link Expansion}
  */
-public class ExpansionDto implements Serializable {
+public class ExpansionResponse implements Serializable {
     private UUID id;
     private String title;
     private String dataswornId;
     private String description;
-    private LocalDate date;
+    private LocalDate releaseDate;
     private String url;
     private String license;
     private String ruleset;
 
-    public ExpansionDto(
+    public ExpansionResponse(
             UUID id,
             String title,
             String dataswornId,
             String description,
-            LocalDate date,
+            LocalDate releaseDate,
             String url,
             String license,
             String ruleset
@@ -31,7 +31,7 @@ public class ExpansionDto implements Serializable {
         this.title = title;
         this.dataswornId = dataswornId;
         this.description = description;
-        this.date = date;
+        this.releaseDate = releaseDate;
         this.url = url;
         this.license = license;
         this.ruleset = ruleset;
@@ -69,12 +69,12 @@ public class ExpansionDto implements Serializable {
         this.description = description;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getReleaseDate() {
+        return releaseDate;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     public String getUrl() {

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Ironbrew - Expansion details</title>
+    <th:block th:insert="~{layout.html :: headerfiles}">
+    </th:block>
+</head>
+<body>
+<header th:insert="~{layout.html :: header}"></header>
+<main class="container">
+    <h2 class="text-center" th:text="${expansion.getTitle()}">Expansion Title</h2>
+    <div class="mb-2">
+        <b>Datasworn ID:</b> <span th:text="${expansion.getDataswornId()}">Expansion Datasworn ID</span>
+    </div>
+    <div class="mb-2">
+        <b>Release date:</b> <span th:text="${expansion.getReleaseDate()}">Expansion release date</span>
+    </div>
+    <div class="mb-2">
+        <b>URL:</b> <span th:text="${expansion.getUrl()}">Expansion URL</span>
+    </div>
+    <div class="mb-2">
+        <b>License:</b> <span th:text="${expansion.getLicense()}">Expansion license</span>
+    </div>
+    <div class="mb-2">
+        <b>Description:</b> <span th:text="${expansion.getDescription()}">Expansion description</span>
+    </div>
+    <div class="mb-2">
+        <b>Ruleset:</b>
+        <span th:switch="${expansion.getRuleset()}">
+            <span th:case="'ironsworn'">Ironsworn</span>
+            <span th:case="'starforged'">Ironsworn: Starforged</span>
+            <span th:case="*" th:text="${expansion.getRuleset()}"></span>
+        </span>
+    </div>
+    <div class="mb-2">
+        <a href="#" class="btn btn-primary">Edit</a>
+    </div>
+</main>
+</body>
+</html>
