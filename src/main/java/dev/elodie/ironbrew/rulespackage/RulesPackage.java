@@ -38,8 +38,10 @@ public abstract class RulesPackage {
     private String license;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_id",
-            foreignKey = @ForeignKey(name = "rules_packages_owner_id_fk")
+    @JoinColumn(
+            name = "owner_id",
+            foreignKey = @ForeignKey(name = "rules_packages_owner_id_fk"),
+            nullable = false
     )
     private User owner;
 

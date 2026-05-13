@@ -8,7 +8,7 @@ CREATE TABLE rules_packages
     release_date date NOT NULL,
     url          VARCHAR(255) NOT NULL,
     license      VARCHAR(255),
-    owner_id     UUID,
+    owner_id     UUID NOT NULL,
     ruleset      VARCHAR(255),
     CONSTRAINT pk_rules_packages PRIMARY KEY (id)
 );
