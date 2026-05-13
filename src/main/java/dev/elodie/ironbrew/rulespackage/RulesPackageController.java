@@ -23,20 +23,20 @@ public class RulesPackageController {
     }
 
     @GetMapping("/your-expansions")
-    public String yourExpansions(Model model, Principal principal, @RequestParam(defaultValue = "1") int page) {
+    public String list(Model model, Principal principal, @RequestParam(defaultValue = "1") int page) {
         String email = principal.getName();
         Pageable pageable = PageRequest.of(page-1, 10, Sort.by("releaseDate").descending());
         Page<ExpansionResponse> result = rulesPackageService.getExpansionDtosByOwnerEmail(email, pageable);
         model.addAttribute("expansions", result.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", result.getTotalPages());
-        return "rules-packages/your-expansions";
+        return "expansions/list";
     }
 
     @GetMapping("/expansions/{id}")
-    public String expansion(Model model, @PathVariable UUID id) {
+    public String view(Model model, @PathVariable UUID id) {
         ExpansionResponse expansion = rulesPackageService.getExpansionDtoById(id);
         model.addAttribute("expansion", expansion);
-        return "rules-packages/expansion-detail";
+        return "expansions/view";
     }
 }
