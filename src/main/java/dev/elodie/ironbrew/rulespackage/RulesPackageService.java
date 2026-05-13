@@ -1,6 +1,8 @@
 package dev.elodie.ironbrew.rulespackage;
 
 import dev.elodie.ironbrew.exception.ResourceNotFoundException;
+import dev.elodie.ironbrew.security.user.User;
+import dev.elodie.ironbrew.security.user.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -10,20 +12,46 @@ import java.util.UUID;
 @Service
 public class RulesPackageService {
     private final RulesPackageRepository rulesPackageRepository;
+    private final RulesPackageMapper rulesPackageMapper;
+    private final UserService userService;
 
-    public RulesPackageService(RulesPackageRepository rulesPackageRepository) {
+    public RulesPackageService(
+            RulesPackageRepository rulesPackageRepository,
+            RulesPackageMapper rulesPackageMapper,
+            UserService userService
+    ) {
         this.rulesPackageRepository = rulesPackageRepository;
+        this.rulesPackageMapper = rulesPackageMapper;
+        this.userService = userService;
     }
 
     public Page<ExpansionResponse> getExpansionDtosByOwnerEmail(String email, Pageable pageable){
         return rulesPackageRepository.findExpansionDtosByOwnerEmail(email, pageable);
     }
 
-    public ExpansionResponse getExpansionDtoById(UUID id){
-        return rulesPackageRepository.findExpansionDtoById(id).orElseThrow(ResourceNotFoundException::new);
+    public ExpansionResponse getExpansionResponseById(UUID id){
+        return rulesPackageRepository.findExpansionResponseById(id).orElseThrow(ResourceNotFoundException::new);
     }
 
     public void deleteById(UUID id){
         rulesPackageRepository.deleteById(id);
+    }
+
+    public UUID create(ExpansionRequest expansionRequest, String ownerEmail){
+        Expansion expansion = rulesPackageMapper.toExpansion(expansionRequest);
+        User owner = userService.findByEmail(ownerEmail);
+        expansion.setOwner(owner);
+        rulesPackageRepository.save(expansion);
+        return expansion.getId();
+    }
+
+    public void update(UUID id, ExpansionRequest expansionRequest){
+        Expansion expansion = rulesPackageRepository.findExpansionById(id).orElseThrow(ResourceNotFoundException::new);
+        rulesPackageMapper.update(expansion, expansionRequest);
+        rulesPackageRepository.save(expansion);
+    }
+
+    public ExpansionRequest getExpansionRequestById(UUID id){
+        return rulesPackageRepository.findExpansionRequestById(id).orElseThrow(ResourceNotFoundException::new);
     }
 }

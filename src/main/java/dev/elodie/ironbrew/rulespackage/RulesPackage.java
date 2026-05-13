@@ -75,11 +75,11 @@ public abstract class RulesPackage {
         this.description = description;
     }
 
-    public LocalDate getDate() {
+    public LocalDate getReleaseDate() {
         return releaseDate;
     }
 
-    public void setDate(LocalDate releaseDate) {
+    public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
     }
 

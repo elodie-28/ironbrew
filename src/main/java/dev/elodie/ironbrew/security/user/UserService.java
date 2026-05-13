@@ -163,4 +163,8 @@ public class UserService {
             throw new PasswordNotMatchingException();
         }
     }
+
+    public User findByEmail(String ownerEmail) {
+        return userRepository.findByEmail(ownerEmail).orElseThrow(UserNotFoundException::new);
+    }
 }

@@ -1,11 +1,13 @@
 package dev.elodie.ironbrew.rulespackage;
 
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -33,7 +35,7 @@ public class RulesPackageController {
 
     @GetMapping("/expansions/{id}")
     public String view(Model model, @PathVariable UUID id) {
-        ExpansionResponse expansion = rulesPackageService.getExpansionDtoById(id);
+        ExpansionResponse expansion = rulesPackageService.getExpansionResponseById(id);
         model.addAttribute("expansion", expansion);
         return "expansions/view";
     }
@@ -43,5 +45,56 @@ public class RulesPackageController {
         rulesPackageService.deleteById(id);
         redirectAttributes.addFlashAttribute("successDeleteMessage", "Expansion deleted successfully");
         return "redirect:/your-expansions";
+    }
+
+    @GetMapping("/expansions/{id}/edit")
+    public String edit(
+            @PathVariable UUID id,
+            Model model
+    ) {
+        ExpansionRequest expansion = rulesPackageService.getExpansionRequestById(id);
+        model.addAttribute("expansion", expansion);
+        model.addAttribute("isEdit", true);
+        model.addAttribute("id", id);
+        return "expansions/form";
+    }
+
+    @PostMapping("/expansions/{id}")
+    public String save(
+            @ModelAttribute("expansion") @Valid ExpansionRequest expansion,
+            BindingResult bindingResult,
+            @PathVariable UUID id,
+            Model model
+    ){
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("isEdit", true);
+            return "expansions/form";
+        }
+        rulesPackageService.update(id, expansion);
+        return "redirect:/expansions/"+id;
+    }
+
+    @GetMapping("/expansions/new")
+    public String newExpansion(Model model) {
+        ExpansionRequest expansion = new ExpansionRequest();
+        model.addAttribute("expansion", expansion);
+        model.addAttribute("isEdit", false);
+        return "expansions/form";
+    }
+
+    @PostMapping("/expansions")
+    public String create(
+            @ModelAttribute("expansion") @Valid ExpansionRequest expansion,
+            BindingResult bindingResult,
+            Model model,
+            Principal principal
+    ){
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("isEdit", false);
+            return "expansions/form";
+        }
+        String email = principal.getName();
+        UUID id = rulesPackageService.create(expansion, email);
+        return "redirect:/expansions/"+id;
     }
 }
