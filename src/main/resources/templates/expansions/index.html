@@ -9,6 +9,9 @@
 <header th:insert="~{layout.html :: header}"></header>
 <main class="container">
     <h1 class="text-center">Your Expansions</h1>
+    <div th:if="${successDeleteMessage}" class="alert alert-success">
+        <span th:text="${successDeleteMessage}"></span>
+    </div>
     <div class="row row-cols-1 row-cols-md-2 g-4 m-2">
         <div th:each="expansion: ${expansions}">
             <div class="col">
@@ -16,11 +19,17 @@
                     <div class="card-body">
                         <h5 class="card-title" th:text="${expansion.getTitle()}"></h5>
                         <p class="card-text" th:text="${#strings.abbreviate(expansion.getDescription(), 160)}">No
-                            description</p>
+                            description
+                        </p>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item"><b>Type:</b> Expansion</li>
                         </ul>
-                        <a th:href="@{/expansions/{id}(id=${expansion.getId()})}" class="card-link">View</a>
+                        <div class="btn-group" role="group" aria-label="Button group for expansion">
+                            <a th:href="@{/expansions/{id}(id=${expansion.getId()})}" class="btn btn-primary">View</a>
+                            <form th:action="@{/expansions/{id}/delete(id=${expansion.getId()})}" method="post">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

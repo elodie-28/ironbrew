@@ -22,4 +22,8 @@ public class RulesPackageService {
     public ExpansionResponse getExpansionDtoById(UUID id){
         return rulesPackageRepository.findExpansionDtoById(id).orElseThrow(ResourceNotFoundException::new);
     }
+
+    public void deleteById(UUID id){
+        rulesPackageRepository.deleteById(id);
+    }
 }

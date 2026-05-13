@@ -6,12 +6,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
-import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -30,7 +28,7 @@ public class RulesPackageController {
         model.addAttribute("expansions", result.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", result.getTotalPages());
-        return "expansions/list";
+        return "expansions/index";
     }
 
     @GetMapping("/expansions/{id}")
@@ -38,5 +36,12 @@ public class RulesPackageController {
         ExpansionResponse expansion = rulesPackageService.getExpansionDtoById(id);
         model.addAttribute("expansion", expansion);
         return "expansions/view";
+    }
+
+    @PostMapping("/expansions/{id}/delete")
+    public String delete(@PathVariable UUID id, RedirectAttributes redirectAttributes) {
+        rulesPackageService.deleteById(id);
+        redirectAttributes.addFlashAttribute("successDeleteMessage", "Expansion deleted successfully");
+        return "redirect:/your-expansions";
     }
 }
