@@ -8,11 +8,9 @@
 <body>
     <header th:insert="~{layout.html :: header}"></header>
     <main class="container">
-        <div th:if="${param.sign_up_success}" class="alert alert-success my-3">
-            You have successfully registered, check your email to confirm it.
+        <div th:if="${successSignUpMessage}" class="alert alert-success my-3" th:text="${successSignUpMessage}">
         </div>
-        <div th:if="${param.password_reset_success}" class="alert alert-success my-3">
-            You have successfully changed your password.
+        <div th:if="${successPasswordResetMessage}" class="alert alert-success my-3" th:text="${successPasswordResetMessage}">
         </div>
         <h1>Hello world</h1>
     </main>

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 
@@ -38,7 +39,8 @@ public class UserController {
     @PostMapping("/sign-up")
     public String signUp(
             @ModelAttribute @Valid RegisterRequest registerRequest,
-            BindingResult bindingResult
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes
     ) {
         if (bindingResult.hasErrors()) {
             return "sign-up";
@@ -55,7 +57,9 @@ public class UserController {
             return "sign-up";
         }
 
-        return "redirect:/?sign_up_success";
+        redirectAttributes.addFlashAttribute("successSignUpMessage", "You have successfully registered, check your email to confirm it.");
+
+        return "redirect:/";
     }
 
     @GetMapping("/verify")
@@ -76,14 +80,20 @@ public class UserController {
     }
 
     @PostMapping("/forgot-password")
-    public String forgotPassword(@Valid @ModelAttribute ForgotPasswordRequest forgotPasswordRequest) throws MessagingException {
+    public String forgotPassword(
+            @Valid @ModelAttribute ForgotPasswordRequest forgotPasswordRequest,
+            RedirectAttributes redirectAttributes
+    ) throws MessagingException {
         try{
             userService.createPasswordResetToken(forgotPasswordRequest);
         } catch (UserNotFoundException e){
-            return "redirect:/forgot-password?sent";
+            redirectAttributes.addFlashAttribute("successForgotPasswordMessage", "If your email address is correct, you will receive an email to reset your password.");
+            return "redirect:/forgot-password";
         }
 
-        return "redirect:/forgot-password?sent";
+        redirectAttributes.addFlashAttribute("successForgotPasswordMessage", "If your email address is correct, you will receive an email to reset your password.");
+
+        return "redirect:/forgot-password";
     }
 
     @GetMapping("/password-reset")
@@ -95,7 +105,11 @@ public class UserController {
     }
 
     @PostMapping("/password-reset")
-    public String passwordResetPost(@Valid @ModelAttribute PasswordResetRequest passwordResetRequest, BindingResult bindingResult) {
+    public String passwordResetPost(
+            @Valid @ModelAttribute PasswordResetRequest passwordResetRequest,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes
+    ) {
         if (bindingResult.hasErrors()) {
             return "password-reset";
         }
@@ -105,7 +119,10 @@ public class UserController {
         }catch (UserNotFoundException | InvalidTokenException e){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        return "redirect:/?password_reset_success";
+
+        redirectAttributes.addFlashAttribute("successPasswordResetMessage", "You have successfully changed your password.");
+
+        return "redirect:/";
     }
 
     @GetMapping("/my-account")
