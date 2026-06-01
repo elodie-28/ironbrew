@@ -21,7 +21,7 @@
             </ul>
         </div>
         <div class="col-10">
-            <div class="alert alert-success my-2" th:if="${param.success}">Your changes have been applied.</div>
+            <div class="alert alert-success my-2" th:if="${successAccountChangeMessage}" th:text="${successAccountChangeMessage}"></div>
             <form th:action="@{/my-account}" th:object="${user}" method="post">
                 <div class="my-3">
                     <div class="row mb-3">

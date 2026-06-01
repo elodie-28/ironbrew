@@ -134,7 +134,11 @@ public class UserController {
     }
 
     @PostMapping("/my-account")
-    public String updateMyAccount(@Valid @ModelAttribute("user") AccountDto accountDto, BindingResult bindingResult, Principal principal) {
+    public String updateMyAccount(
+            @Valid @ModelAttribute("user") AccountDto accountDto,
+            BindingResult bindingResult, Principal principal,
+            RedirectAttributes redirectAttributes
+    ) {
         if (bindingResult.hasErrors()) {
             return "my-account";
         }
@@ -147,8 +151,9 @@ public class UserController {
             return "my-account";
         }
 
+        redirectAttributes.addFlashAttribute("successAccountChangeMessage", "Your changes have been applied.");
 
-        return "redirect:/my-account?success";
+        return "redirect:/my-account";
     }
 
     @GetMapping("/my-account/password")
@@ -162,7 +167,8 @@ public class UserController {
     public String changeMyAccountPassword(
             Principal principal,
             @Valid @ModelAttribute ChangePasswordRequest changePasswordRequest,
-            BindingResult bindingResult
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes
     ) {
         if (bindingResult.hasErrors()) {
             return "my-account-password";
@@ -176,6 +182,8 @@ public class UserController {
             return "my-account-password";
         }
 
-        return "redirect:/my-account/password?success";
+        redirectAttributes.addFlashAttribute("successChangePasswordMessage", "Your password has been changed.");
+
+        return "redirect:/my-account/password";
     }
 }
