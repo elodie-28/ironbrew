@@ -9,6 +9,9 @@
 <header th:insert="~{layout.html :: header}"></header>
 <main class="container">
     <h1 class="text-center">Your Expansions</h1>
+    <div class="d-flex justify-content-center">
+        <a th:href="@{/expansions/new}" class="btn btn-primary">Create expansion</a>
+    </div>
     <div th:if="${successDeleteMessage}" class="alert alert-success">
         <span th:text="${successDeleteMessage}"></span>
     </div>
@@ -21,16 +24,14 @@
                         <p class="card-text" th:text="${#strings.abbreviate(expansion.getDescription(), 160)}">No
                             description
                         </p>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item"><b>Type:</b> Expansion</li>
-                        </ul>
-                        <div class="btn-group" role="group" aria-label="Button group for expansion">
-                            <a th:href="@{/expansions/{id}(id=${expansion.getId()})}" class="btn btn-primary">View</a>
-                            <a th:href="@{/expansions/{id}/edit(id=${expansion.getId()})}" class="btn btn-primary">Edit</a>
+                        <div class="d-flex gap-2">
+                            <a th:href="@{/expansions/{id}(id=${expansion.getId()})}" class="btn btn-outline-primary">View</a>
+                            <a th:href="@{/expansions/{id}/edit(id=${expansion.getId()})}" class="btn btn-outline-primary">Edit</a>
                             <form th:action="@{/expansions/{id}/delete(id=${expansion.getId()})}"
+                                  class="d-inline-flex"
                                   method="post"
                                   onsubmit="return confirm('Are you sure you want to delete this expansion? This action cannot be undone.');">
-                                <button type="submit" class="btn btn-danger">Delete</button>
+                                <button type="submit" class="btn btn-outline-danger">Delete</button>
                             </form>
                         </div>
                     </div>
