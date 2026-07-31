@@ -32,12 +32,12 @@
             <span th:case="*" th:text="${expansion.getRuleset()}"></span>
         </span>
     </div>
-    <div class="mb-2 btn-group" role="group" aria-label="Button group for expansion">
-        <a th:href="@{/expansions/{id}/edit(id=${expansion.getId()})}" class="btn btn-primary">Edit</a>
+    <div class="d-flex gap-2">
+        <a th:href="@{/expansions/{id}/edit(id=${expansion.getId()})}" class="btn btn-outline-primary">Edit</a>
         <form th:action="@{/expansions/{id}/delete(id=${expansion.getId()})}"
               method="post"
               onsubmit="return confirm('Are you sure you want to delete this expansion? This action cannot be undone.');">
-            <button type="submit" class="btn btn-danger">Delete</button>
+            <button type="submit" class="btn btn-outline-danger">Delete</button>
         </form>
     </div>
 </main>

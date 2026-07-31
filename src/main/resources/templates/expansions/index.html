@@ -43,8 +43,9 @@
         <ul class="pagination justify-content-center m-2">
             <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
                 <a class="page-link"
-                   th:href="@{/your-expansions(page=${currentPage - 1})}">
-                    Previous
+                   th:href="@{/your-expansions(page=${currentPage - 1})}"
+                    aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
             <li class="page-item"
@@ -58,8 +59,9 @@
             <li class="page-item"
                 th:classappend="${currentPage + 1 > totalPages} ? 'disabled'">
                 <a class="page-link"
-                   th:href="@{/your-expansions(page=${currentPage + 1})}">
-                    Next
+                   th:href="@{/your-expansions(page=${currentPage + 1})}"
+                    aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
         </ul>
