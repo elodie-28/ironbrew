@@ -1,7 +1,5 @@
 package dev.elodie.ironbrew.security;
 
-import dev.elodie.ironbrew.exception.ResourceNotFoundException;
-import dev.elodie.ironbrew.rulespackage.Expansion;
 import dev.elodie.ironbrew.rulespackage.RulesPackageRepository;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
