@@ -20,14 +20,14 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title" th:text="${expansion.getTitle()}"></h5>
-                        <p class="card-text" th:text="${#strings.abbreviate(expansion.getDescription(), 160)}">No
+                        <h5 class="card-title" th:text="${expansion.title()}"></h5>
+                        <p class="card-text" th:text="${#strings.abbreviate(expansion.description(), 160)}">No
                             description
                         </p>
                         <div class="d-flex gap-2">
-                            <a th:href="@{/expansions/{id}(id=${expansion.getId()})}" class="btn btn-outline-primary">View</a>
-                            <a th:href="@{/expansions/{id}/edit(id=${expansion.getId()})}" class="btn btn-outline-primary">Edit</a>
-                            <form th:action="@{/expansions/{id}/delete(id=${expansion.getId()})}"
+                            <a th:href="@{/expansions/{id}(id=${expansion.id()})}" class="btn btn-outline-primary">View</a>
+                            <a th:href="@{/expansions/{id}/edit(id=${expansion.id()})}" class="btn btn-outline-primary">Edit</a>
+                            <form th:action="@{/expansions/{id}/delete(id=${expansion.id()})}"
                                   class="d-inline-flex"
                                   method="post"
                                   onsubmit="return confirm('Are you sure you want to delete this expansion? This action cannot be undone.');">
