@@ -2,21 +2,22 @@ package dev.elodie.ironbrew.rulespackage;
 
 import dev.elodie.ironbrew.security.user.User;
 import jakarta.persistence.*;
-import org.hibernate.annotations.Check;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
 @Table(
-        name = "rules_packages"
+        name = "rules_packages",
+        check = {
+                @CheckConstraint(
+                        name = "rules_packages_expansion_ruleset_check",
+                        constraint = "(type = 'ruleset' AND ruleset IS NULL) OR (type = 'expansion' AND ruleset IS NOT NULL)"
+                )
+        }
 )
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type")
-@Check(
-        name = "rules_packages_expansion_ruleset_check",
-        constraints = "(type = 'ruleset' AND ruleset IS NULL) OR (type = 'expansion' AND ruleset IS NOT NULL)"
-)
 public abstract class RulesPackage {
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
