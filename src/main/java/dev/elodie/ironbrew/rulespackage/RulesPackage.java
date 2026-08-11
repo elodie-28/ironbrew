@@ -2,6 +2,9 @@ package dev.elodie.ironbrew.rulespackage;
 
 import dev.elodie.ironbrew.security.user.User;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -18,6 +21,7 @@ import java.util.UUID;
 )
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type")
+@Getter @Setter @NoArgsConstructor
 public abstract class RulesPackage {
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -45,68 +49,4 @@ public abstract class RulesPackage {
             nullable = false
     )
     private User owner;
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDataswornId() {
-        return dataswornId;
-    }
-
-    public void setDataswornId(String dataswornId) {
-        this.dataswornId = dataswornId;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public LocalDate getReleaseDate() {
-        return releaseDate;
-    }
-
-    public void setReleaseDate(LocalDate releaseDate) {
-        this.releaseDate = releaseDate;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getLicense() {
-        return license;
-    }
-
-    public void setLicense(String license) {
-        this.license = license;
-    }
-
-    public User getOwner() {
-        return owner;
-    }
-
-    public void setOwner(User owner) {
-        this.owner = owner;
-    }
 }

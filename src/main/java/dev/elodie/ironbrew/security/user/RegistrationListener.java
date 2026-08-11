@@ -2,6 +2,7 @@ package dev.elodie.ironbrew.security.user;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationListener;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -11,20 +12,11 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 @Component
+@RequiredArgsConstructor
 public class RegistrationListener implements ApplicationListener<OnRegistrationCompleteEvent> {
     private final UserService userService;
     private final JavaMailSender mailSender;
     private final TemplateEngine templateEngine;
-
-    public RegistrationListener(
-            UserService userService,
-            JavaMailSender mailSender,
-            TemplateEngine templateEngine
-    ) {
-        this.userService = userService;
-        this.mailSender = mailSender;
-        this.templateEngine = templateEngine;
-    }
 
     @Override
     public void onApplicationEvent(OnRegistrationCompleteEvent event) {

@@ -3,6 +3,7 @@ package dev.elodie.ironbrew.rulespackage;
 import dev.elodie.ironbrew.exception.ResourceNotFoundException;
 import dev.elodie.ironbrew.security.user.User;
 import dev.elodie.ironbrew.security.user.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,20 +12,11 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class RulesPackageService {
     private final RulesPackageRepository rulesPackageRepository;
     private final RulesPackageMapper rulesPackageMapper;
     private final UserService userService;
-
-    public RulesPackageService(
-            RulesPackageRepository rulesPackageRepository,
-            RulesPackageMapper rulesPackageMapper,
-            UserService userService
-    ) {
-        this.rulesPackageRepository = rulesPackageRepository;
-        this.rulesPackageMapper = rulesPackageMapper;
-        this.userService = userService;
-    }
 
     public Page<ExpansionResponse> getExpansionDtosByOwnerEmail(String email, Pageable pageable){
         return rulesPackageRepository.findExpansionDtosByOwnerEmail(email, pageable);

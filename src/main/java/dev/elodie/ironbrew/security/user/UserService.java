@@ -5,6 +5,7 @@ import dev.elodie.ironbrew.utils.AppUrlProvider;
 import dev.elodie.ironbrew.utils.TokenGenerator;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -17,6 +18,7 @@ import java.time.Duration;
 import java.time.OffsetDateTime;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -25,24 +27,6 @@ public class UserService {
     private final TemplateEngine templateEngine;
     private final AppUrlProvider appUrlProvider;
     private final TokenGenerator tokenGenerator;
-
-    public UserService(
-            UserRepository userRepository,
-            PasswordEncoder passwordEncoder,
-            UserMapper userMapper,
-            JavaMailSender mailSender,
-            TemplateEngine templateEngine,
-            AppUrlProvider appUrlProvider,
-            TokenGenerator tokenGenerator
-    ) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.userMapper = userMapper;
-        this.mailSender = mailSender;
-        this.templateEngine = templateEngine;
-        this.appUrlProvider = appUrlProvider;
-        this.tokenGenerator = tokenGenerator;
-    }
 
     public User register(RegisterRequest registerRequest) {
         User user = userMapper.toUser(registerRequest);

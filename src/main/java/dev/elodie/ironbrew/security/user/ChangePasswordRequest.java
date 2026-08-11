@@ -3,8 +3,12 @@ package dev.elodie.ironbrew.security.user;
 import dev.elodie.ironbrew.security.user.validation.ConfirmationPassword;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import lombok.Getter;
+import lombok.Setter;
 
 @ConfirmationPassword
+@Setter
+@Getter
 public class ChangePasswordRequest {
     @NotBlank(message = "Old password is required")
     private String oldPassword;
@@ -16,28 +20,4 @@ public class ChangePasswordRequest {
     private String newPassword;
     @NotBlank(message = "Confirmation password is required")
     private String confirmPassword;
-
-    public String getOldPassword() {
-        return oldPassword;
-    }
-
-    public void setOldPassword(String oldPassword) {
-        this.oldPassword = oldPassword;
-    }
-
-    public String getNewPassword() {
-        return newPassword;
-    }
-
-    public void setNewPassword(String newPassword) {
-        this.newPassword = newPassword;
-    }
-
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-    }
 }

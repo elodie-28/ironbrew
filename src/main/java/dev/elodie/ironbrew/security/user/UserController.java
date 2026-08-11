@@ -3,6 +3,7 @@ package dev.elodie.ironbrew.security.user;
 import dev.elodie.ironbrew.exception.*;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -18,17 +19,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.security.Principal;
 
 @Controller
+@RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
     private final ApplicationEventPublisher eventPublisher;
-
-    public UserController(
-            UserService userService,
-            ApplicationEventPublisher eventPublisher
-    ) {
-        this.userService = userService;
-        this.eventPublisher = eventPublisher;
-    }
 
     @GetMapping("/sign-up")
     public String signUp(Model model) {

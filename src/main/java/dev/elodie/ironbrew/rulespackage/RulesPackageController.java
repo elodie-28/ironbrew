@@ -1,6 +1,7 @@
 package dev.elodie.ironbrew.rulespackage;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,12 +16,9 @@ import java.security.Principal;
 import java.util.UUID;
 
 @Controller
+@RequiredArgsConstructor
 public class RulesPackageController {
     private final RulesPackageService rulesPackageService;
-
-    public RulesPackageController(RulesPackageService rulesPackageService) {
-        this.rulesPackageService = rulesPackageService;
-    }
 
     @GetMapping("/your-expansions")
     public String list(Model model, Principal principal, @RequestParam(defaultValue = "1") int page) {
