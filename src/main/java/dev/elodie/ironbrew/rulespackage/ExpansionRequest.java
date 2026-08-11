@@ -2,6 +2,7 @@ package dev.elodie.ironbrew.rulespackage;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ import java.time.LocalDate;
 public class ExpansionRequest implements Serializable {
     @NotBlank(message = "Title is required.")
     private String title;
+    @Pattern(regexp = "^[a-z][a-z0-9_]*$", message = "Datasworn ID must contain only lowercase letters, digits and _.")
     private String dataswornId;
     private String description;
     @NotNull(message = "Release date is required.")
