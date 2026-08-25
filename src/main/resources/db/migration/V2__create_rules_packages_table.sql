@@ -14,7 +14,7 @@ CREATE TABLE rules_packages
 );
 
 ALTER TABLE rules_packages
-    ADD CONSTRAINT RULES_PACKAGES_OWNER_ID_FK FOREIGN KEY (owner_id) REFERENCES users (id);
+    ADD CONSTRAINT RULES_PACKAGES_OWNER_ID_FK FOREIGN KEY (owner_id) REFERENCES users (id) ON DELETE CASCADE;
 
 ALTER TABLE rules_packages
     ADD CONSTRAINT rules_packages_expansion_ruleset_check CHECK ( (type = 'ruleset' AND ruleset IS NULL) OR (type = 'expansion' AND ruleset IS NOT NULL) );
