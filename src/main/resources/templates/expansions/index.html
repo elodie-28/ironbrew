@@ -8,6 +8,12 @@
 <body>
 <header th:insert="~{layout.html :: header}"></header>
 <main class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Expansions</li>
+        </ol>
+    </nav>
     <h1 class="text-center">Your Expansions</h1>
     <div class="d-flex justify-content-center">
         <a th:href="@{/expansions/new}" class="btn btn-primary">Create expansion</a>

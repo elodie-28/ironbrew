@@ -8,6 +8,12 @@
 <body>
 <header th:insert="~{layout.html :: header}"></header>
 <main class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/your-expansions}">Expansions</a></li>
+        </ol>
+    </nav>
     <h2 class="text-center" th:text="${isEdit ? 'Edit your expansion' : 'Create your expansion'}"></h2>
     <form th:action="${isEdit}? @{/expansions/{id}(id=${id})} : @{/expansions}"
           th:object="${expansion}"

@@ -8,6 +8,12 @@
 <body>
 <header th:insert="~{layout.html :: header}"></header>
 <main class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/your-expansions}">Expansions</a></li>
+        </ol>
+    </nav>
     <h2 class="text-center" th:text="${expansion.title()}">Expansion Title</h2>
     <div class="mb-2">
         <b>Datasworn ID:</b> <span th:text="${expansion.dataswornId()}">Expansion Datasworn ID</span>
