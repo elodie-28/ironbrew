@@ -1,5 +1,6 @@
 package dev.elodie.ironbrew.rulespackage;
 
+import dev.elodie.ironbrew.asset.collection.AssetCollection;
 import dev.elodie.ironbrew.security.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -7,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -49,4 +52,7 @@ public abstract class RulesPackage {
             nullable = false
     )
     private User owner;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<AssetCollection> assetCollections =  new ArrayList<>();
 }

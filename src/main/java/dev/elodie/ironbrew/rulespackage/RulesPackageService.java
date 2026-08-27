@@ -50,4 +50,8 @@ public class RulesPackageService {
     public ExpansionRequest getExpansionRequestById(UUID id){
         return rulesPackageRepository.findExpansionRequestById(id).orElseThrow(ResourceNotFoundException::new);
     }
+
+    public String getExpansionTitle(UUID id){
+        return rulesPackageRepository.findTitleById(id);
+    }
 }

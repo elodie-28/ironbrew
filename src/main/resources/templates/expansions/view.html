@@ -7,44 +7,67 @@
 </head>
 <body>
 <header th:insert="~{layout.html :: header}"></header>
-<main class="container">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/your-expansions}">Expansions</a></li>
-        </ol>
-    </nav>
-    <h2 class="text-center" th:text="${expansion.title()}">Expansion Title</h2>
-    <div class="mb-2">
-        <b>Datasworn ID:</b> <span th:text="${expansion.dataswornId()}">Expansion Datasworn ID</span>
+<main>
+    <div class="border-bottom">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{/your-expansions}">Expansions</a></li>
+                </ol>
+            </nav>
+            <h2 class="text-center" th:text="${expansion.title()}">Expansion Title</h2>
+            <ul class="nav nav-tabs border-bottom-0">
+                <li class="nav-item">
+                    <a
+                            class="nav-link active"
+                            aria-current="page"
+                            th:href="@{/expansions/{id}(id=${expansion.id()})}">
+                        Details
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a
+                            class="nav-link"
+                            th:href="@{/expansions/{id}/asset-collections(id=${expansion.id()})}">
+                        Asset collections
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
-    <div class="mb-2">
-        <b>Release date:</b> <span th:text="${expansion.releaseDate()}">Expansion release date</span>
-    </div>
-    <div class="mb-2">
-        <b>URL:</b> <span th:text="${expansion.url()}">Expansion URL</span>
-    </div>
-    <div class="mb-2">
-        <b>License:</b> <span th:text="${expansion.license()}">Expansion license</span>
-    </div>
-    <div class="mb-2">
-        <b>Description:</b> <span th:text="${expansion.description()}">Expansion description</span>
-    </div>
-    <div class="mb-2">
-        <b>Ruleset:</b>
-        <span th:switch="${expansion.ruleset()}">
+    <div class="container my-4">
+        <div class="mb-2">
+            <b>Datasworn ID:</b> <span th:text="${expansion.dataswornId()}">Expansion Datasworn ID</span>
+        </div>
+        <div class="mb-2">
+            <b>Release date:</b> <span th:text="${expansion.releaseDate()}">Expansion release date</span>
+        </div>
+        <div class="mb-2">
+            <b>URL:</b> <span th:text="${expansion.url()}">Expansion URL</span>
+        </div>
+        <div class="mb-2">
+            <b>License:</b> <span th:text="${expansion.license()}">Expansion license</span>
+        </div>
+        <div class="mb-2">
+            <b>Description:</b> <span th:text="${expansion.description()}">Expansion description</span>
+        </div>
+        <div class="mb-2">
+            <b>Ruleset:</b>
+            <span th:switch="${expansion.ruleset()}">
             <span th:case="'ironsworn'">Ironsworn</span>
             <span th:case="'starforged'">Ironsworn: Starforged</span>
             <span th:case="*" th:text="${expansion.ruleset()}"></span>
         </span>
-    </div>
-    <div class="d-flex gap-2">
-        <a th:href="@{/expansions/{id}/edit(id=${expansion.id()})}" class="btn btn-outline-primary">Edit</a>
-        <form th:action="@{/expansions/{id}/delete(id=${expansion.id()})}"
-              method="post"
-              onsubmit="return confirm('Are you sure you want to delete this expansion? This action cannot be undone.');">
-            <button type="submit" class="btn btn-outline-danger">Delete</button>
-        </form>
+        </div>
+        <div class="d-flex gap-2">
+            <a th:href="@{/expansions/{id}/edit(id=${expansion.id()})}" class="btn btn-outline-primary">Edit</a>
+            <form th:action="@{/expansions/{id}/delete(id=${expansion.id()})}"
+                  method="post"
+                  onsubmit="return confirm('Are you sure you want to delete this expansion? This action cannot be undone.');">
+                <button type="submit" class="btn btn-outline-danger">Delete</button>
+            </form>
+        </div>
     </div>
 </main>
 </body>

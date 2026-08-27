@@ -26,4 +26,7 @@ public interface RulesPackageRepository extends JpaRepository<RulesPackage, UUID
 
     @Query("SELECT owner.email from Expansion where id = :id")
     String findOwnerEmailById(@Param("id") UUID id);
+
+    @Query("SELECT title from Expansion where id = :id")
+    String findTitleById(@Param("id") UUID id);
 }
