@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,8 +17,8 @@ public class AssetCollectionRequest implements Serializable {
     private String name;
     private String canonicalName;
     private String color;
-    private List<String> replaces;
-    private List<String> enhances;
+    private List<@NotBlank String> replaces =  new ArrayList<>();
+    private List<@NotBlank String> enhances = new ArrayList<>();
     private String summary;
     private String description;
 }

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title th:text="${isEdit ? 'Ironbrew - Edit your asset collection' : 'Ironbrew - Create your asset collection'}"></title>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <th:block th:insert="~{layout.html :: headerfiles}">
+    </th:block>
+</head>
+<body>
+<header th:insert="~{layout.html :: header}"></header>
+<main class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/your-expansions}">Expansions</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/expansions/{id}(id=${expansionId})}" th:text="${expansionTitle}">Expansion title</a></li>
+        </ol>
+    </nav>
+    <h2 class="text-center" th:text="${isEdit ? 'Edit your asset collection' : 'Create your asset collection'}"></h2>
+    <form th:action="${isEdit}? @{/asset-collections/{id}(id=${id})} : @{/expansions/{id}/asset-collections(id=${expansionId})}"
+          th:object="${assetCollection}"
+          method="post">
+        <div class="mb-3">
+            <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'"
+                   id="name" name="name" th:field="*{name}" required/>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+        </div>
+        <div class="mb-3">
+            <label for="canonicalName" class="form-label">Canonical name</label>
+            <input type="text" class="form-control" th:classappend="${#fields.hasErrors('canonicalName')} ? 'is-invalid'"
+                   id="canonicalName" name="canonicalName" th:field="*{canonicalName}"/>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('canonicalName')}" th:errors="*{canonicalName}"></div>
+        </div>
+        <div id="replacesListContainer" th:fragment="replaces-list" th:object="${assetCollection}" class="mb-3">
+            <div class="form-label">
+                Replaces
+                <button
+                        class="btn btn-outline-secondary"
+                        type="button"
+                        hx-post="/asset-collections/add-replaces-row"
+                        hx-target="#replacesListContainer"
+                        hx-swap="outerHTML"
+                        hx-include="closest form">
+                    Add row
+                </button>
+            </div>
+            <table
+                    class="table"
+                    th:if="${!assetCollection.replaces.isEmpty()}">
+                <tbody>
+                <tr th:each="replacesRow,replacesRowStat : *{replaces}">
+                    <th>
+                        <label
+                                th:for="'replaces'+${replacesRowStat.index}"
+                                class="form-label"
+                                th:text="${replacesRowStat.index}">1</label>
+                    </th>
+                    <td>
+                        <input
+                                type="text"
+                                class="form-control"
+                                th:errorclass="is-invalid"
+                                th:field="*{replaces[__${replacesRowStat.index}__]}" />
+                        <div
+                                class="invalid-feedback"
+                                th:if="${#fields.hasErrors('replaces[' + replacesRowStat.index + ']')}"
+                                th:errors="*{replaces[__${replacesRowStat.index}__]}">
+                        </div>
+                    </td>
+                    <td>
+                        <button type="button"
+                                class="btn btn-outline-secondary"
+                                th:hx-post="@{/asset-collections/remove-replaces-row(index=${replacesRowStat.index})}"
+                                hx-target="#replacesListContainer"
+                                hx-swap="outerHTML"
+                                hx-include="closest form">Remove row</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="enhancesListContainer" th:fragment="enhances-list" th:object="${assetCollection}" class="mb-3">
+            <div class="form-label">
+                Enhances
+                <button
+                        class="btn btn-outline-secondary"
+                        type="button"
+                        hx-post="/asset-collections/add-enhances-row"
+                        hx-target="#enhancesListContainer"
+                        hx-swap="outerHTML"
+                        hx-include="closest form">
+                    Add row
+                </button>
+            </div>
+            <table
+                    class="table"
+                    th:if="${!assetCollection.enhances.isEmpty()}">
+                <tbody>
+                <tr th:each="enhancesRow,enhancesRowStat : *{enhances}">
+                    <th>
+                        <label
+                                th:for="'enhances'+${enhancesRowStat.index}"
+                                class="form-label"
+                                th:text="${enhancesRowStat.index}">1</label>
+                    </th>
+                    <td>
+                        <input
+                                type="text"
+                                class="form-control"
+                                th:errorclass="is-invalid"
+                                th:field="*{enhances[__${enhancesRowStat.index}__]}" />
+                        <div
+                                class="invalid-feedback"
+                                th:if="${#fields.hasErrors('enhances[' + enhancesRowStat.index + ']')}"
+                                th:errors="*{enhances[__${enhancesRowStat.index}__]}">
+                        </div>
+                    </td>
+                    <td>
+                        <button type="button"
+                                class="btn btn-outline-secondary"
+                                th:hx-post="@{/asset-collections/remove-enhances-row(index=${enhancesRowStat.index})}"
+                                hx-target="#enhancesListContainer"
+                                hx-swap="outerHTML"
+                                hx-include="closest form">Remove row</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="mb-3">
+            <label for="summary" class="form-label">Summary</label>
+            <div id="summaryHelpBlock" class="form-text">
+                A brief summary of this collection, no more than a few sentences in length. This is intended for use in application tooltips and similar sorts of hints. Longer text should use the "description" key instead.
+            </div>
+            <textarea class="form-control" rows="5" th:classappend="${#fields.hasErrors('summary')} ? 'is-invalid'"
+                      id="summary" name="summary" th:field="*{summary}" aria-describedby="summaryHelpBlock">
+            </textarea>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('summary')}" th:errors="*{summary}"></div>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <div id="descriptionHelpBlock" class="form-text">
+                A longer description of this collection, which might include multiple paragraphs. If it's only a couple sentences, use the `summary` key instead.
+            </div>
+            <textarea class="form-control" rows="5" th:classappend="${#fields.hasErrors('description')} ? 'is-invalid'"
+                      id="description" name="description" th:field="*{description}" aria-describedby="descriptionHelpBlock">
+            </textarea>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+        </div>
+        <div class="mb-2">
+            <button type="submit" class="btn btn-primary">Save your changes</button>
+        </div>
+    </form>
+</main>
+<script>
+    document.body.addEventListener('htmx:configRequest', (event) => {
+        const token = document.querySelector('meta[name="_csrf"]')?.getAttribute('content');
+        const header = document.querySelector('meta[name="_csrf_header"]')?.getAttribute('content');
+        if (token && header) {
+            event.detail.headers[header] = token;
+        }
+    });
+</script>
+</body>
+</html>

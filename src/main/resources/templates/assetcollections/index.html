@@ -33,6 +33,9 @@
         </div>
     </div>
     <div class="container my-4">
+        <div class="d-flex justify-content-center mb-4">
+            <a th:href="@{/expansions/{id}/asset-collections/new(id=${rulesPackageId})}" class="btn btn-primary">Create asset collection</a>
+        </div>
         <div
                 class="list-group"
                 th:if="${!assetCollections.isEmpty()}">

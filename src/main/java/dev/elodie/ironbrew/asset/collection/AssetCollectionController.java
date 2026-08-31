@@ -1,11 +1,13 @@
 package dev.elodie.ironbrew.asset.collection;
 
 import dev.elodie.ironbrew.rulespackage.RulesPackageService;
+import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -24,5 +26,84 @@ public class AssetCollectionController {
         model.addAttribute("expansionTitle", title);
         model.addAttribute("rulesPackageId", id);
         return "assetcollections/index";
+    }
+
+    @GetMapping("/expansions/{id}/asset-collections/new")
+    public String newAssetCollection(@PathVariable UUID id, Model model) {
+        model.addAttribute("expansionId", id);
+        AssetCollectionRequest assetCollection = new AssetCollectionRequest();
+        model.addAttribute("assetCollection", assetCollection);
+        model.addAttribute("isEdit", false);
+        String title = rulesPackageService.getExpansionTitle(id);
+        model.addAttribute("expansionTitle", title);
+        return "assetcollections/form";
+    }
+
+    @HxRequest
+    @PostMapping("/asset-collections/add-replaces-row")
+    public String addReplacesRow(
+            @ModelAttribute("assetCollection") AssetCollectionRequest assetCollection,
+            Model model
+    ) {
+        assetCollection.getReplaces().add("");
+        model.addAttribute("assetCollection", assetCollection);
+        return "assetcollections/form :: replaces-list";
+    }
+
+    @HxRequest
+    @PostMapping("/asset-collections/remove-replaces-row")
+    public String removeReplacesRow(
+            @RequestParam("index") int index,
+            AssetCollectionRequest assetCollection,
+            Model model
+    ) {
+        if (index >= 0 && index < assetCollection.getReplaces().size()) {
+            assetCollection.getReplaces().remove(index);
+        }
+        model.addAttribute("assetCollection", assetCollection);
+        return "assetcollections/form :: replaces-list";
+    }
+
+    @HxRequest
+    @PostMapping("/asset-collections/add-enhances-row")
+    public String addEnhancesRow(
+            @ModelAttribute("assetCollection") AssetCollectionRequest assetCollection,
+            Model model
+    ) {
+        assetCollection.getEnhances().add("");
+        model.addAttribute("assetCollection", assetCollection);
+        return "assetcollections/form :: enhances-list";
+    }
+
+    @HxRequest
+    @PostMapping("/asset-collections/remove-enhances-row")
+    public String removeEnhancesRow(
+            @RequestParam("index") int index,
+            AssetCollectionRequest assetCollection,
+            Model model
+    ) {
+        if (index >= 0 && index < assetCollection.getEnhances().size()) {
+            assetCollection.getEnhances().remove(index);
+        }
+        model.addAttribute("assetCollection", assetCollection);
+        return "assetcollections/form :: enhances-list";
+    }
+
+    @PostMapping("/expansions/{id}/asset-collections")
+    public String saveAssetCollection(
+            @PathVariable("id") UUID expansionId,
+            @ModelAttribute("assetCollection") @Valid AssetCollectionRequest assetCollection,
+            BindingResult bindingResult,
+            Model model
+    ) {
+        if (bindingResult.hasErrors()) {
+            String title  = rulesPackageService.getExpansionTitle(expansionId);
+            model.addAttribute("expansionTitle", title);
+            model.addAttribute("isEdit", false);
+            return "assetcollections/form";
+        }
+
+        UUID id = assetCollectionService.create(assetCollection, expansionId);
+        return "redirect:/asset-collections/" + id;
     }
 }
