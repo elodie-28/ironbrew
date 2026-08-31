@@ -23,13 +23,13 @@
           method="post">
         <div class="mb-3">
             <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'"
+            <input type="text" class="form-control" th:errorclass="is-invalid"
                    id="name" name="name" th:field="*{name}" required/>
             <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
         </div>
         <div class="mb-3">
             <label for="canonicalName" class="form-label">Canonical name</label>
-            <input type="text" class="form-control" th:classappend="${#fields.hasErrors('canonicalName')} ? 'is-invalid'"
+            <input type="text" class="form-control" th:errorclass="is-invalid"
                    id="canonicalName" name="canonicalName" th:field="*{canonicalName}"/>
             <div class="invalid-feedback" th:if="${#fields.hasErrors('canonicalName')}" th:errors="*{canonicalName}"></div>
         </div>
@@ -134,7 +134,7 @@
             <div id="summaryHelpBlock" class="form-text">
                 A brief summary of this collection, no more than a few sentences in length. This is intended for use in application tooltips and similar sorts of hints. Longer text should use the "description" key instead.
             </div>
-            <textarea class="form-control" rows="5" th:classappend="${#fields.hasErrors('summary')} ? 'is-invalid'"
+            <textarea class="form-control" rows="5" th:errorclass="is-invalid"
                       id="summary" name="summary" th:field="*{summary}" aria-describedby="summaryHelpBlock">
             </textarea>
             <div class="invalid-feedback" th:if="${#fields.hasErrors('summary')}" th:errors="*{summary}"></div>
@@ -144,7 +144,7 @@
             <div id="descriptionHelpBlock" class="form-text">
                 A longer description of this collection, which might include multiple paragraphs. If it's only a couple sentences, use the `summary` key instead.
             </div>
-            <textarea class="form-control" rows="5" th:classappend="${#fields.hasErrors('description')} ? 'is-invalid'"
+            <textarea class="form-control" rows="5" th:errorclass="is-invalid"
                       id="description" name="description" th:field="*{description}" aria-describedby="descriptionHelpBlock">
             </textarea>
             <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>

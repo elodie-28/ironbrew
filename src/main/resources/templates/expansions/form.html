@@ -20,44 +20,44 @@
           method="post">
         <div class="mb-3">
             <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" th:classappend="${#fields.hasErrors('title')} ? 'is-invalid'"
+            <input type="text" class="form-control" th:errorclass="is-invalid"
                    id="title" name="title" th:field="*{title}" required/>
             <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
         </div>
         <div class="mb-3">
             <label for="dataswornId" class="form-label">Datasworn ID</label>
-            <input type="text" class="form-control" th:classappend="${#fields.hasErrors('dataswornId')} ? 'is-invalid'"
+            <input type="text" class="form-control" th:errorclass="is-invalid"
                    id="dataswornId" name="dataswornId" th:field="*{dataswornId}"/>
             <div class="invalid-feedback" th:if="${#fields.hasErrors('dataswornId')}" th:errors="*{dataswornId}"></div>
         </div>
         <div class="mb-3">
             <label for="releaseDate" class="form-label">Release date <span class="text-danger">*</span></label>
-            <input type="date" class="form-control" th:classappend="${#fields.hasErrors('releaseDate')} ? 'is-invalid'"
+            <input type="date" class="form-control" th:errorclass="is-invalid"
                    id="releaseDate" name="releaseDate" th:field="*{releaseDate}" required/>
             <div class="invalid-feedback" th:if="${#fields.hasErrors('releaseDate')}" th:errors="*{releaseDate}"></div>
         </div>
         <div class="mb-3">
             <label for="url" class="form-label">URL <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" th:classappend="${#fields.hasErrors('url')} ? 'is-invalid'"
+            <input type="text" class="form-control" th:errorclass="is-invalid"
                    id="url" name="url" th:field="*{url}" required/>
             <div class="invalid-feedback" th:if="${#fields.hasErrors('url')}" th:errors="*{url}"></div>
         </div>
         <div class="mb-3">
             <label for="license" class="form-label">License</label>
-            <input type="text" class="form-control" th:classappend="${#fields.hasErrors('license')} ? 'is-invalid'"
+            <input type="text" class="form-control" th:errorclass="is-invalid"
                    id="license" name="license" th:field="*{license}"/>
             <div class="invalid-feedback" th:if="${#fields.hasErrors('license')}" th:errors="*{license}"></div>
         </div>
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>
-            <textarea class="form-control" rows="5" th:classappend="${#fields.hasErrors('description')} ? 'is-invalid'"
+            <textarea class="form-control" rows="5" th:errorclass="is-invalid"
                    id="description" name="description" th:field="*{description}">
             </textarea>
             <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
         </div>
         <div class="mb-3">
             <label for="ruleset" class="form-label">Ruleset <span class="text-danger">*</span></label>
-            <select class="form-control" th:classappend="${#fields.hasErrors('ruleset')} ? 'is-invalid'"
+            <select class="form-control" th:errorclass="is-invalid"
                    id="ruleset" name="ruleset" th:field="*{ruleset}">
                 <option value="ironsworn">Ironsworn</option>
                 <option value="starforged">Ironsworn: Starforged</option>

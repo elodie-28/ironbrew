@@ -35,7 +35,7 @@
                         <label for="name" class="col-sm-2 col-form-label">Name</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control"
-                                   th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'" id="name" name="name"
+                                   th:errorclass="is-invalid" id="name" name="name"
                                    th:field="*{name}" required/>
                             <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}"
                                  th:errors="*{name}"></div>
@@ -45,7 +45,7 @@
                         <label for="website" class="col-sm-2 col-form-label">Website</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control"
-                                   th:classappend="${#fields.hasErrors('website')} ? 'is-invalid'" id="website"
+                                   th:errorclass="is-invalid" id="website"
                                    name="website" th:field="*{website}"/>
                             <div class="invalid-feedback" th:if="${#fields.hasErrors('website')}"
                                  th:errors="*{website}"></div>
