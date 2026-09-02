@@ -53,6 +53,6 @@ public abstract class RulesPackage {
     )
     private User owner;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "rulesPackage")
     private List<AssetCollection> assetCollections =  new ArrayList<>();
 }
