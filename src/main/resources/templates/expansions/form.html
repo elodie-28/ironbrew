@@ -59,7 +59,7 @@
             <label for="ruleset" class="form-label">Ruleset <span class="text-danger">*</span></label>
             <select class="form-control" th:errorclass="is-invalid"
                    id="ruleset" name="ruleset" th:field="*{ruleset}">
-                <option value="ironsworn">Ironsworn</option>
+                <option value="classic">Ironsworn</option>
                 <option value="starforged">Ironsworn: Starforged</option>
             </select>
             <div class="invalid-feedback" th:if="${#fields.hasErrors('ruleset')}" th:errors="*{ruleset}"></div>

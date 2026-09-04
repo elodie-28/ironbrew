@@ -54,4 +54,8 @@ public class RulesPackageService {
     public String getExpansionTitle(UUID id){
         return rulesPackageRepository.findTitleById(id);
     }
+
+    public String getRuleset(UUID id){
+        return rulesPackageRepository.findRulesetById(id);
+    }
 }

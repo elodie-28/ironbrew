@@ -6,6 +6,8 @@
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <th:block th:insert="~{layout.html :: headerfiles}">
     </th:block>
+    <script th:src="@{/webjars/tom-select/2.6.2/dist/js/tom-select.complete.js}"></script>
+    <link rel="stylesheet" th:href="@{/webjars/tom-select/2.6.2/dist/css/tom-select.bootstrap5.css}">
 </head>
 <body>
 <header th:insert="~{layout.html :: header}"></header>
@@ -33,101 +35,25 @@
                    id="canonicalName" name="canonicalName" th:field="*{canonicalName}"/>
             <div class="invalid-feedback" th:if="${#fields.hasErrors('canonicalName')}" th:errors="*{canonicalName}"></div>
         </div>
-        <div id="replacesListContainer" th:fragment="replaces-list" th:object="${assetCollection}" class="mb-3">
-            <div class="form-label">
-                Replaces
-                <button
-                        class="btn btn-outline-secondary"
-                        type="button"
-                        hx-post="/asset-collections/add-replaces-row"
-                        hx-target="#replacesListContainer"
-                        hx-swap="outerHTML"
-                        hx-include="closest form">
-                    Add row
-                </button>
-            </div>
-            <table
-                    class="table"
-                    th:if="${!assetCollection.replaces.isEmpty()}">
-                <tbody>
-                <tr th:each="replacesRow,replacesRowStat : *{replaces}">
-                    <th>
-                        <label
-                                th:for="'replaces'+${replacesRowStat.index}"
-                                class="form-label"
-                                th:text="${replacesRowStat.index}">1</label>
-                    </th>
-                    <td>
-                        <input
-                                type="text"
-                                class="form-control"
-                                th:errorclass="is-invalid"
-                                th:field="*{replaces[__${replacesRowStat.index}__]}" />
-                        <div
-                                class="invalid-feedback"
-                                th:if="${#fields.hasErrors('replaces[' + replacesRowStat.index + ']')}"
-                                th:errors="*{replaces[__${replacesRowStat.index}__]}">
-                        </div>
-                    </td>
-                    <td>
-                        <button type="button"
-                                class="btn btn-outline-secondary"
-                                th:hx-post="@{/asset-collections/remove-replaces-row(index=${replacesRowStat.index})}"
-                                hx-target="#replacesListContainer"
-                                hx-swap="outerHTML"
-                                hx-include="closest form">Remove row</button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+        <div class="mb-3">
+            <label for="replaces" class="form-label">Replaces</label>
+            <select id="replaces" multiple class="form-select" th:errorclass="is-invalid" th:field="*{replaces}">
+                <option value="">Select an asset collection id...</option>
+                <option th:each="assetCollectionId : ${assetCollectionIds}"
+                        th:text="${assetCollectionId}"
+                        th:value="${assetCollectionId}">
+                </option>
+            </select>
         </div>
-        <div id="enhancesListContainer" th:fragment="enhances-list" th:object="${assetCollection}" class="mb-3">
-            <div class="form-label">
-                Enhances
-                <button
-                        class="btn btn-outline-secondary"
-                        type="button"
-                        hx-post="/asset-collections/add-enhances-row"
-                        hx-target="#enhancesListContainer"
-                        hx-swap="outerHTML"
-                        hx-include="closest form">
-                    Add row
-                </button>
-            </div>
-            <table
-                    class="table"
-                    th:if="${!assetCollection.enhances.isEmpty()}">
-                <tbody>
-                <tr th:each="enhancesRow,enhancesRowStat : *{enhances}">
-                    <th>
-                        <label
-                                th:for="'enhances'+${enhancesRowStat.index}"
-                                class="form-label"
-                                th:text="${enhancesRowStat.index}">1</label>
-                    </th>
-                    <td>
-                        <input
-                                type="text"
-                                class="form-control"
-                                th:errorclass="is-invalid"
-                                th:field="*{enhances[__${enhancesRowStat.index}__]}" />
-                        <div
-                                class="invalid-feedback"
-                                th:if="${#fields.hasErrors('enhances[' + enhancesRowStat.index + ']')}"
-                                th:errors="*{enhances[__${enhancesRowStat.index}__]}">
-                        </div>
-                    </td>
-                    <td>
-                        <button type="button"
-                                class="btn btn-outline-secondary"
-                                th:hx-post="@{/asset-collections/remove-enhances-row(index=${enhancesRowStat.index})}"
-                                hx-target="#enhancesListContainer"
-                                hx-swap="outerHTML"
-                                hx-include="closest form">Remove row</button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+        <div class="mb-3">
+            <label for="enhances" class="form-label">Enhances</label>
+            <select id="enhances" multiple class="form-select" th:errorclass="is-invalid" th:field="*{enhances}">
+                <option value="">Select an asset collection id...</option>
+                <option th:each="assetCollectionId : ${assetCollectionIds}"
+                        th:text="${assetCollectionId}"
+                        th:value="${assetCollectionId}">
+                </option>
+            </select>
         </div>
         <div class="mb-3">
             <label for="summary" class="form-label">Summary</label>
@@ -155,13 +81,12 @@
     </form>
 </main>
 <script>
-    document.body.addEventListener('htmx:configRequest', (event) => {
-        const token = document.querySelector('meta[name="_csrf"]')?.getAttribute('content');
-        const header = document.querySelector('meta[name="_csrf_header"]')?.getAttribute('content');
-        if (token && header) {
-            event.detail.headers[header] = token;
-        }
-    });
+    var settings = {
+        create: true,
+        persist: false,
+    };
+    new TomSelect('#replaces',settings);
+    new TomSelect('#enhances',settings);
 </script>
 </body>
 </html>

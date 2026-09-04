@@ -29,4 +29,7 @@ public interface RulesPackageRepository extends JpaRepository<RulesPackage, UUID
 
     @Query("SELECT title from Expansion where id = :id")
     String findTitleById(@Param("id") UUID id);
+
+    @Query("SELECT ruleset from Expansion where id = :id")
+    String findRulesetById(UUID id);
 }
