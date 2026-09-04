@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Ironbrew - Asset collection details</title>
+    <th:block th:insert="~{layout.html :: headerfiles}">
+    </th:block>
+</head>
+<body>
+<header th:insert="~{layout.html :: header}"></header>
+<main>
+    <div class="border-bottom">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{/your-expansions}">Expansions</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{/expansions/{id}(id=${expansionId})}" th:text="${expansionTitle}">Expansion title</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{/expansions/{id}/asset-collections(id=${expansionId})}">Asset collections</a></li>
+                    <li class="breadcrumb-item active" aria-current="page" th:text="${assetCollection.name()}"></li>
+                </ol>
+            </nav>
+            <h2 class="text-center" th:text="${assetCollection.name()}">Asset collection name</h2>
+        </div>
+    </div>
+    <div class="container my-4">
+        <div class="mb-2">
+            <b>Canonical name:</b> <span th:text="${assetCollection.canonicalName()}">Asset collection canonical name</span>
+        </div>
+        <div class="mb-2">
+            <b>Replaces:</b>
+            <ul th:if="${!assetCollection.replaces().isEmpty()}">
+                <li th:each="replacesId : ${assetCollection.replaces()}" th:text="${replacesId}"></li>
+            </ul>
+        </div>
+        <div class="mb-2">
+            <b>Enhances:</b>
+            <ul th:if="${!assetCollection.enhances().isEmpty()}">
+                <li th:each="enhancesId : ${assetCollection.enhances()}" th:text="${enhancesId}"></li>
+            </ul>
+        </div>
+        <div class="mb-2">
+            <b>Summary :</b> <span th:text="${assetCollection.summary()}">Asset collection summary</span>
+        </div>
+        <div class="mb-2">
+            <b>Description:</b> <span th:text="${assetCollection.description()}">Asset collection description</span>
+        </div>
+    </div>
+</main>
+</body>
+</html>

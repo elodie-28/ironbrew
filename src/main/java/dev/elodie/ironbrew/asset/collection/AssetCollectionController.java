@@ -83,4 +83,18 @@ public class AssetCollectionController {
         UUID id = assetCollectionService.create(assetCollection, expansionId);
         return "redirect:/asset-collections/" + id;
     }
+
+    @GetMapping("/asset-collections/{id}")
+    public String findAssetCollectionById(@PathVariable UUID id, Model model) {
+        AssetCollectionResponse assetCollection = assetCollectionService.findAssetCollectionResponseById(id);
+        model.addAttribute("assetCollection", assetCollection);
+
+        UUID expansionId = assetCollectionService.findRulesPackageIdById(id);
+        model.addAttribute("expansionId", expansionId);
+
+        String title = rulesPackageService.getExpansionTitle(expansionId);
+        model.addAttribute("expansionTitle", title);
+
+        return "assetcollections/view";
+    }
 }

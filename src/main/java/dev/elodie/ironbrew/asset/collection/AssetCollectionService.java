@@ -30,4 +30,8 @@ public class AssetCollectionService {
     public AssetCollectionResponse findAssetCollectionResponseById(UUID id) {
         return assetCollectionRepository.findAssetCollectionResponseById(id).orElseThrow(ResourceNotFoundException::new);
     }
+
+    public UUID findRulesPackageIdById(UUID id) {
+        return assetCollectionRepository.findRulesPackageIdById(id);
+    }
 }
