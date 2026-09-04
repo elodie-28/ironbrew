@@ -2,8 +2,6 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <title th:text="${isEdit ? 'Ironbrew - Edit your asset collection' : 'Ironbrew - Create your asset collection'}"></title>
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <th:block th:insert="~{layout.html :: headerfiles}">
     </th:block>
     <script th:src="@{/webjars/tom-select/2.6.2/dist/js/tom-select.complete.js}"></script>
