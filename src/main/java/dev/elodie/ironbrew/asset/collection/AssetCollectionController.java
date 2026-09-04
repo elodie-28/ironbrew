@@ -65,56 +65,6 @@ public class AssetCollectionController {
         return "assetcollections/form";
     }
 
-    @HxRequest
-    @PostMapping("/asset-collections/add-replaces-row")
-    public String addReplacesRow(
-            @ModelAttribute("assetCollection") AssetCollectionRequest assetCollection,
-            Model model
-    ) {
-        assetCollection.getReplaces().add("");
-        model.addAttribute("assetCollection", assetCollection);
-        return "assetcollections/form :: replaces-list";
-    }
-
-    @HxRequest
-    @PostMapping("/asset-collections/remove-replaces-row")
-    public String removeReplacesRow(
-            @RequestParam("index") int index,
-            AssetCollectionRequest assetCollection,
-            Model model
-    ) {
-        if (index >= 0 && index < assetCollection.getReplaces().size()) {
-            assetCollection.getReplaces().remove(index);
-        }
-        model.addAttribute("assetCollection", assetCollection);
-        return "assetcollections/form :: replaces-list";
-    }
-
-    @HxRequest
-    @PostMapping("/asset-collections/add-enhances-row")
-    public String addEnhancesRow(
-            @ModelAttribute("assetCollection") AssetCollectionRequest assetCollection,
-            Model model
-    ) {
-        assetCollection.getEnhances().add("");
-        model.addAttribute("assetCollection", assetCollection);
-        return "assetcollections/form :: enhances-list";
-    }
-
-    @HxRequest
-    @PostMapping("/asset-collections/remove-enhances-row")
-    public String removeEnhancesRow(
-            @RequestParam("index") int index,
-            AssetCollectionRequest assetCollection,
-            Model model
-    ) {
-        if (index >= 0 && index < assetCollection.getEnhances().size()) {
-            assetCollection.getEnhances().remove(index);
-        }
-        model.addAttribute("assetCollection", assetCollection);
-        return "assetcollections/form :: enhances-list";
-    }
-
     @PostMapping("/expansions/{id}/asset-collections")
     public String saveAssetCollection(
             @PathVariable("id") UUID expansionId,
