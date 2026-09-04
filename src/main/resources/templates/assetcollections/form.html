@@ -37,7 +37,10 @@
         </div>
         <div class="mb-3">
             <label for="replaces" class="form-label">Replaces</label>
-            <select id="replaces" multiple class="form-select" th:errorclass="is-invalid" th:field="*{replaces}">
+            <div id="replacesHelpBlock" class="form-text">
+                This node replaces all nodes that match these wildcards. References to the replaced nodes can be considered equivalent to this node.
+            </div>
+            <select id="replaces" multiple class="form-select" th:errorclass="is-invalid" th:field="*{replaces}" aria-describedby="replacesHelpBlock">
                 <option value="">Select an asset collection id...</option>
                 <option th:each="assetCollectionId : ${assetCollectionIds}"
                         th:text="${assetCollectionId}"
@@ -47,7 +50,10 @@
         </div>
         <div class="mb-3">
             <label for="enhances" class="form-label">Enhances</label>
-            <select id="enhances" multiple class="form-select" th:errorclass="is-invalid" th:field="*{enhances}">
+            <div id="enhancesHelpBlock" class="form-text">
+                This node's content enhances all nodes that match these wildcards, rather than being a standalone item of its own.
+            </div>
+            <select id="enhances" multiple class="form-select" th:errorclass="is-invalid" th:field="*{enhances}" aria-describedby="enhancesHelpBlock">
                 <option value="">Select an asset collection id...</option>
                 <option th:each="assetCollectionId : ${assetCollectionIds}"
                         th:text="${assetCollectionId}"
