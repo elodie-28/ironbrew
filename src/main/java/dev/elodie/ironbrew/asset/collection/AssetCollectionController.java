@@ -25,7 +25,7 @@ public class AssetCollectionController {
         String title = rulesPackageService.getExpansionTitle(id);
         model.addAttribute("assetCollections", assetCollections);
         model.addAttribute("expansionTitle", title);
-        model.addAttribute("rulesPackageId", id);
+        model.addAttribute("expansionId", id);
         return "assetcollections/index";
     }
 
@@ -74,6 +74,7 @@ public class AssetCollectionController {
     ) {
         if (bindingResult.hasErrors()) {
             String title  = rulesPackageService.getExpansionTitle(expansionId);
+            model.addAttribute("expansionId", expansionId);
             model.addAttribute("expansionTitle", title);
             model.addAttribute("isEdit", false);
             return "assetcollections/form";

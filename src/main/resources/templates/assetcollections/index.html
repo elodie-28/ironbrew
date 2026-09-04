@@ -20,7 +20,7 @@
             <h2 class="text-center" th:text="${expansionTitle}">Expansion Title</h2>
             <ul class="nav nav-tabs border-bottom-0">
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/expansions/{id}(id=${rulesPackageId})}">Details</a>
+                    <a class="nav-link" th:href="@{/expansions/{id}(id=${expansionId})}">Details</a>
                 </li>
                 <li class="nav-item">
                     <a
@@ -35,7 +35,7 @@
     </div>
     <div class="container my-4">
         <div class="d-flex justify-content-center mb-4">
-            <a th:href="@{/expansions/{id}/asset-collections/new(id=${rulesPackageId})}" class="btn btn-primary">Create asset collection</a>
+            <a th:href="@{/expansions/{id}/asset-collections/new(id=${expansionId})}" class="btn btn-primary">Create asset collection</a>
         </div>
         <div
                 class="list-group"
