@@ -56,7 +56,7 @@
         <div class="mb-2">
             <b>Ruleset:</b>
             <span th:switch="${expansion.ruleset()}">
-            <span th:case="'ironsworn'">Ironsworn</span>
+            <span th:case="'classic'">Ironsworn</span>
             <span th:case="'starforged'">Ironsworn: Starforged</span>
             <span th:case="*" th:text="${expansion.ruleset()}"></span>
         </span>
