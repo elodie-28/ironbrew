@@ -1,7 +1,9 @@
 package dev.elodie.ironbrew.asset.collection;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
@@ -11,7 +13,7 @@ import java.util.List;
 /**
  * DTO for {@link AssetCollection}
  */
-@Getter @Setter
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class AssetCollectionRequest implements Serializable {
     @NotBlank(message = "Name is required.")
     private String name;

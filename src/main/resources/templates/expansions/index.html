@@ -18,9 +18,7 @@
     <div class="d-flex justify-content-center">
         <a th:href="@{/expansions/new}" class="btn btn-primary">Create expansion</a>
     </div>
-    <div th:if="${successDeleteMessage}" class="alert alert-success m-2">
-        <span th:text="${successDeleteMessage}"></span>
-    </div>
+    <div th:if="${successDeleteMessage}" class="alert alert-success m-2" th:text="${successDeleteMessage}"></div>
     <div class="row row-cols-1 row-cols-md-2 g-4 m-2">
         <div th:each="expansion: ${expansions}">
             <div class="col">

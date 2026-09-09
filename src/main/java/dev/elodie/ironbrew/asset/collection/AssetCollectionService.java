@@ -3,7 +3,9 @@ package dev.elodie.ironbrew.asset.collection;
 import dev.elodie.ironbrew.exception.ResourceNotFoundException;
 import dev.elodie.ironbrew.rulespackage.RulesPackage;
 import dev.elodie.ironbrew.rulespackage.RulesPackageRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,7 +26,8 @@ public class AssetCollectionService {
     }
 
     public List<AssetCollectionResponse> findAllAssetCollectionResponseByRulesPackageId(UUID rulesPackageId) {
-        return assetCollectionRepository.findAllAssetCollectionResponseByRulesPackageId(rulesPackageId);
+        Sort sort = Sort.by(Sort.Direction.ASC, "name");
+        return assetCollectionRepository.findAllAssetCollectionResponseByRulesPackageId(rulesPackageId, sort);
     }
 
     public AssetCollectionResponse findAssetCollectionResponseById(UUID id) {
@@ -33,5 +36,19 @@ public class AssetCollectionService {
 
     public UUID findRulesPackageIdById(UUID id) {
         return assetCollectionRepository.findRulesPackageIdById(id);
+    }
+
+    public AssetCollectionRequest findAssetCollectionRequestByRulesPackageId(UUID id) {
+        return assetCollectionRepository.findAssetCollectionRequestById(id).orElseThrow(ResourceNotFoundException::new);
+    }
+
+    public void update(AssetCollectionRequest request, UUID id) {
+        AssetCollection assetCollection = assetCollectionRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
+        assetCollectionMapper.update(assetCollection, request);
+        assetCollectionRepository.save(assetCollection);
+    }
+
+    public void deleteById(UUID id) {
+        assetCollectionRepository.deleteById(id);
     }
 }
