@@ -43,7 +43,23 @@ public class AssetCollectionController {
         String title = rulesPackageService.getExpansionTitle(id);
         model.addAttribute("expansionTitle", title);
 
-        addAssetCollectionIdsToAttributes(id, model);
+        String ruleset =  rulesPackageService.getRuleset(id);
+
+        addAssetCollectionIdsToAttributes(
+                id,
+                model,
+                "replacesIds",
+                assetCollection.getReplaces(),
+                ruleset
+        );
+
+        addAssetCollectionIdsToAttributes(
+                id,
+                model,
+                "enhancesIds",
+                assetCollection.getEnhances(),
+                ruleset
+        );
 
         return "assetcollections/form";
     }
@@ -61,7 +77,23 @@ public class AssetCollectionController {
             model.addAttribute("expansionTitle", title);
             model.addAttribute("isEdit", false);
 
-            addAssetCollectionIdsToAttributes(expansionId, model);
+            String ruleset =  rulesPackageService.getRuleset(expansionId);
+
+            addAssetCollectionIdsToAttributes(
+                    expansionId,
+                    model,
+                    "replacesIds",
+                    assetCollection.getReplaces(),
+                    ruleset
+            );
+
+            addAssetCollectionIdsToAttributes(
+                    expansionId,
+                    model,
+                    "enhancesIds",
+                    assetCollection.getEnhances(),
+                    ruleset
+            );
 
             return "assetcollections/form";
         }
@@ -97,7 +129,23 @@ public class AssetCollectionController {
 
         model.addAttribute("isEdit", true);
 
-        addAssetCollectionIdsToAttributes(expansionId, model);
+        String ruleset =  rulesPackageService.getRuleset(expansionId);
+
+        addAssetCollectionIdsToAttributes(
+                expansionId,
+                model,
+                "replacesIds",
+                assetCollection.getReplaces(),
+                ruleset
+        );
+
+        addAssetCollectionIdsToAttributes(
+                expansionId,
+                model,
+                "enhancesIds",
+                assetCollection.getEnhances(),
+                ruleset
+        );
 
         return "assetcollections/form";
     }
@@ -119,7 +167,23 @@ public class AssetCollectionController {
             String title = rulesPackageService.getExpansionTitle(expansionId);
             model.addAttribute("expansionTitle", title);
 
-            addAssetCollectionIdsToAttributes(expansionId, model);
+            String ruleset =  rulesPackageService.getRuleset(expansionId);
+
+            addAssetCollectionIdsToAttributes(
+                    expansionId,
+                    model,
+                    "replacesIds",
+                    assetCollection.getReplaces(),
+                    ruleset
+            );
+
+            addAssetCollectionIdsToAttributes(
+                    expansionId,
+                    model,
+                    "enhancesIds",
+                    assetCollection.getEnhances(),
+                    ruleset
+            );
 
             return "assetcollections/form";
         }
@@ -139,26 +203,31 @@ public class AssetCollectionController {
         return "redirect:/expansions/" + expansionId + "/asset-collections";
     }
 
-    private void addAssetCollectionIdsToAttributes(UUID expansionId, Model model) {
-        String ruleset =  rulesPackageService.getRuleset(expansionId);
+    private void addAssetCollectionIdsToAttributes(UUID expansionId, Model model, String attribute, List<String> attributeIds, String ruleset) {
         List<String> assetCollectionIds = new ArrayList<>();
         if(ruleset.equals("classic")){
-            assetCollectionIds = List.of(
+            assetCollectionIds.addAll(List.of(
                     "asset_collection:classic/combat_talent",
                     "asset_collection:classic/companion",
                     "asset_collection:classic/path",
                     "asset_collection:classic/ritual"
-            );
+            ));
         } else if (ruleset.equals("starforged")) {
-            assetCollectionIds = List.of(
+            assetCollectionIds.addAll(List.of(
                     "asset_collection:starforged/command_vehicle",
                     "asset_collection:starforged/companion",
                     "asset_collection:starforged/deed",
                     "asset_collection:starforged/module",
                     "asset_collection:starforged/path",
                     "asset_collection:starforged/support_vehicle"
-            );
+            ));
         }
-        model.addAttribute("assetCollectionIds", assetCollectionIds);
+
+        for(String attributeId: attributeIds){
+            if(!assetCollectionIds.contains(attributeId)){
+                assetCollectionIds.add(attributeId);
+            }
+        }
+        model.addAttribute(attribute, assetCollectionIds);
     }
 }

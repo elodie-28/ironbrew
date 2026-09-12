@@ -40,7 +40,7 @@
             </div>
             <select id="replaces" multiple class="form-select" th:errorclass="is-invalid" th:field="*{replaces}" aria-describedby="replacesHelpBlock">
                 <option value="">Select an asset collection id...</option>
-                <option th:each="assetCollectionId : ${assetCollectionIds}"
+                <option th:each="assetCollectionId : ${replacesIds}"
                         th:text="${assetCollectionId}"
                         th:value="${assetCollectionId}">
                 </option>
@@ -53,7 +53,7 @@
             </div>
             <select id="enhances" multiple class="form-select" th:errorclass="is-invalid" th:field="*{enhances}" aria-describedby="enhancesHelpBlock">
                 <option value="">Select an asset collection id...</option>
-                <option th:each="assetCollectionId : ${assetCollectionIds}"
+                <option th:each="assetCollectionId : ${enhancesIds}"
                         th:text="${assetCollectionId}"
                         th:value="${assetCollectionId}">
                 </option>
