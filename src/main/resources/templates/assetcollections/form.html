@@ -34,6 +34,12 @@
             <div class="invalid-feedback" th:if="${#fields.hasErrors('canonicalName')}" th:errors="*{canonicalName}"></div>
         </div>
         <div class="mb-3">
+            <label for="color" class="form-label">Color</label>
+            <input type="color" class="form-control" th:errorclass="is-invalid"
+                   id="color" name="color" th:field="*{color}"/>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></div>
+        </div>
+        <div class="mb-3">
             <label for="replaces" class="form-label">Replaces</label>
             <div id="replacesHelpBlock" class="form-text">
                 This node replaces all nodes that match these wildcards. References to the replaced nodes can be considered equivalent to this node.

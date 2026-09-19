@@ -27,6 +27,9 @@
             <b>Canonical name:</b> <span th:text="${assetCollection.canonicalName()}">Asset collection canonical name</span>
         </div>
         <div class="mb-2">
+            <b>Color:</b> <span th:text="${assetCollection.color()}" th:style="|color: ${assetCollection.color()};|">Asset collection color</span>
+        </div>
+        <div class="mb-2">
             <b>Replaces:</b>
             <ul th:if="${!assetCollection.replaces().isEmpty()}">
                 <li th:each="replacesId : ${assetCollection.replaces()}" th:text="${replacesId}"></li>
