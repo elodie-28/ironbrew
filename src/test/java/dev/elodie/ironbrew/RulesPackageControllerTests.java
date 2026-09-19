@@ -1,9 +1,6 @@
 package dev.elodie.ironbrew;
 
-import dev.elodie.ironbrew.rulespackage.ExpansionRequest;
-import dev.elodie.ironbrew.rulespackage.ExpansionResponse;
-import dev.elodie.ironbrew.rulespackage.RulesPackageController;
-import dev.elodie.ironbrew.rulespackage.RulesPackageService;
+import dev.elodie.ironbrew.rulespackage.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -109,7 +106,7 @@ class RulesPackageControllerTests {
         @Test
         void shouldReturnFormViewWithEditMode() throws Exception {
             UUID id = UUID.randomUUID();
-            ExpansionRequest mockRequest = mock(ExpansionRequest.class);
+            ExpansionUpdateRequest mockRequest = mock(ExpansionUpdateRequest.class);
 
             when(rulesPackageService.getExpansionRequestById(id)).thenReturn(mockRequest);
 
@@ -137,12 +134,11 @@ class RulesPackageControllerTests {
                             .with(csrf())
                             .param("title", "Title")
                             .param("releaseDate", "2026-01-01")
-                            .param("url", "http://example.com")
-                            .param("ruleset", "ironsworn"))
+                            .param("url", "http://example.com"))
                     .andExpect(status().is3xxRedirection())
                     .andExpect(redirectedUrl("/expansions/" + id));
 
-            verify(rulesPackageService).update(eq(id), any(ExpansionRequest.class));
+            verify(rulesPackageService).update(eq(id), any(ExpansionUpdateRequest.class));
         }
 
         @Test
@@ -185,7 +181,7 @@ class RulesPackageControllerTests {
             UUID generatedId = UUID.randomUUID();
             String userEmail = "john.doe@example.com";
 
-            when(rulesPackageService.create(any(ExpansionRequest.class), eq(userEmail)))
+            when(rulesPackageService.create(any(ExpansionCreateRequest.class), eq(userEmail)))
                     .thenReturn(generatedId);
 
             // When & Then
@@ -199,7 +195,7 @@ class RulesPackageControllerTests {
                     .andExpect(status().is3xxRedirection())
                     .andExpect(redirectedUrl("/expansions/" + generatedId));
 
-            verify(rulesPackageService).create(any(ExpansionRequest.class), eq(userEmail));
+            verify(rulesPackageService).create(any(ExpansionCreateRequest.class), eq(userEmail));
         }
 
         @Test

@@ -21,8 +21,8 @@ public interface RulesPackageRepository extends JpaRepository<RulesPackage, UUID
     @Query("SELECT e from Expansion e where e.id = :id")
     Optional<Expansion> findExpansionById(@Param("id") UUID id);
 
-    @Query("SELECT new dev.elodie.ironbrew.rulespackage.ExpansionRequest(title, dataswornId, description, releaseDate, url, license, ruleset) FROM Expansion WHERE id = :id")
-    Optional<ExpansionRequest> findExpansionRequestById(@Param("id") UUID id);
+    @Query("SELECT new dev.elodie.ironbrew.rulespackage.ExpansionUpdateRequest(title, dataswornId, description, releaseDate, url, license) FROM Expansion WHERE id = :id")
+    Optional<ExpansionUpdateRequest> findExpansionRequestById(@Param("id") UUID id);
 
     @Query("SELECT owner.email from Expansion where id = :id")
     String findOwnerEmailById(@Param("id") UUID id);

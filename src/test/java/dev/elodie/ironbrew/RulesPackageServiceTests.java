@@ -104,7 +104,7 @@ public class RulesPackageServiceTests {
         void shouldCreateAndReturnGeneratedId() {
             UUID expectedId = UUID.randomUUID();
             String ownerEmail = "john.doe@example.com";
-            ExpansionRequest request = mock(ExpansionRequest.class);
+            ExpansionCreateRequest request = mock(ExpansionCreateRequest.class);
 
             Expansion expansion = new Expansion();
             expansion.setId(expectedId);
@@ -130,7 +130,7 @@ public class RulesPackageServiceTests {
         @Test
         void shouldUpdateExistingExpansion() {
             UUID id = UUID.randomUUID();
-            ExpansionRequest request = mock(ExpansionRequest.class);
+            ExpansionUpdateRequest request = mock(ExpansionUpdateRequest.class);
             Expansion existingExpansion = new Expansion();
 
             when(rulesPackageRepository.findExpansionById(id))
@@ -146,7 +146,7 @@ public class RulesPackageServiceTests {
         @Test
         void shouldThrowExceptionWhenUpdatingNonExistentExpansion() {
             UUID id = UUID.randomUUID();
-            ExpansionRequest request = mock(ExpansionRequest.class);
+            ExpansionUpdateRequest request = mock(ExpansionUpdateRequest.class);
 
             when(rulesPackageRepository.findExpansionById(id))
                     .thenReturn(Optional.empty());
@@ -165,12 +165,12 @@ public class RulesPackageServiceTests {
         @Test
         void shouldReturnExpansionRequestWhenFound() {
             UUID id = UUID.randomUUID();
-            ExpansionRequest mockRequest = mock(ExpansionRequest.class);
+            ExpansionUpdateRequest mockRequest = mock(ExpansionUpdateRequest.class);
 
             when(rulesPackageRepository.findExpansionRequestById(id))
                     .thenReturn(Optional.of(mockRequest));
 
-            ExpansionRequest result = rulesPackageService.getExpansionRequestById(id);
+            ExpansionUpdateRequest result = rulesPackageService.getExpansionRequestById(id);
 
             assertThat(result).isNotNull().isEqualTo(mockRequest);
             verify(rulesPackageRepository).findExpansionRequestById(id);

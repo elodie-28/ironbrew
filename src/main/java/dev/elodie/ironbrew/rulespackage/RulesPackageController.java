@@ -50,7 +50,7 @@ public class RulesPackageController {
             @PathVariable UUID id,
             Model model
     ) {
-        ExpansionRequest expansion = rulesPackageService.getExpansionRequestById(id);
+        ExpansionUpdateRequest expansion = rulesPackageService.getExpansionRequestById(id);
         model.addAttribute("expansion", expansion);
         model.addAttribute("isEdit", true);
         model.addAttribute("id", id);
@@ -59,7 +59,7 @@ public class RulesPackageController {
 
     @PostMapping("/expansions/{id}")
     public String save(
-            @ModelAttribute("expansion") @Valid ExpansionRequest expansion,
+            @ModelAttribute("expansion") @Valid ExpansionUpdateRequest expansion,
             BindingResult bindingResult,
             @PathVariable UUID id,
             Model model
@@ -74,7 +74,7 @@ public class RulesPackageController {
 
     @GetMapping("/expansions/new")
     public String newExpansion(Model model) {
-        ExpansionRequest expansion = new ExpansionRequest();
+        ExpansionCreateRequest expansion = new ExpansionCreateRequest();
         model.addAttribute("expansion", expansion);
         model.addAttribute("isEdit", false);
         return "expansions/form";
@@ -82,7 +82,7 @@ public class RulesPackageController {
 
     @PostMapping("/expansions")
     public String create(
-            @ModelAttribute("expansion") @Valid ExpansionRequest expansion,
+            @ModelAttribute("expansion") @Valid ExpansionCreateRequest expansion,
             BindingResult bindingResult,
             Model model,
             Principal principal

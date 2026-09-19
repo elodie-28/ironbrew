@@ -32,7 +32,7 @@ public class RulesPackageService {
         rulesPackageRepository.deleteById(id);
     }
 
-    public UUID create(ExpansionRequest expansionRequest, String ownerEmail){
+    public UUID create(ExpansionCreateRequest expansionRequest, String ownerEmail){
         Expansion expansion = rulesPackageMapper.toExpansion(expansionRequest);
         User owner = userService.findByEmail(ownerEmail);
         expansion.setOwner(owner);
@@ -41,13 +41,13 @@ public class RulesPackageService {
     }
 
     @PreAuthorize("hasPermission(#id, 'Expansion', 'update')")
-    public void update(UUID id, ExpansionRequest expansionRequest){
+    public void update(UUID id, ExpansionUpdateRequest expansionRequest){
         Expansion expansion = rulesPackageRepository.findExpansionById(id).orElseThrow(ResourceNotFoundException::new);
         rulesPackageMapper.update(expansion, expansionRequest);
         rulesPackageRepository.save(expansion);
     }
 
-    public ExpansionRequest getExpansionRequestById(UUID id){
+    public ExpansionUpdateRequest getExpansionRequestById(UUID id){
         return rulesPackageRepository.findExpansionRequestById(id).orElseThrow(ResourceNotFoundException::new);
     }
 

@@ -17,7 +17,7 @@ import java.time.LocalDate;
  * DTO for {@link Expansion}
  */
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-public class ExpansionRequest implements Serializable {
+public class ExpansionUpdateRequest implements Serializable {
     @NotBlank(message = "Title is required.")
     private String title;
     @Pattern(regexp = "^[a-z][a-z0-9_]*$", message = "Datasworn ID must contain only lowercase letters, digits and _.")
@@ -30,6 +30,4 @@ public class ExpansionRequest implements Serializable {
     @NotBlank(message = "URL is required.")
     private String url;
     private String license;
-    @NotBlank(message = "Ruleset is required.")
-    private String ruleset;
 }
