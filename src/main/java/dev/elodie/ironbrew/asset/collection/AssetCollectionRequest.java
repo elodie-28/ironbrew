@@ -1,6 +1,7 @@
 package dev.elodie.ironbrew.asset.collection;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,8 +20,8 @@ public class AssetCollectionRequest implements Serializable {
     private String name;
     private String canonicalName;
     private String color;
-    private List<@NotBlank String> replaces =  new ArrayList<>();
-    private List<@NotBlank String> enhances = new ArrayList<>();
+    private List<@NotBlank @AssetCollectionIdWildcard String> replaces =  new ArrayList<>();
+    private List<@NotBlank @AssetCollectionIdWildcard String> enhances = new ArrayList<>();
     private String summary;
     private String description;
 }

@@ -44,26 +44,50 @@
             <div id="replacesHelpBlock" class="form-text">
                 This node replaces all nodes that match these wildcards. References to the replaced nodes can be considered equivalent to this node.
             </div>
-            <select id="replaces" multiple class="form-select" th:errorclass="is-invalid" th:field="*{replaces}" aria-describedby="replacesHelpBlock">
+            <select
+                    id="replaces"
+                    multiple
+                    class="form-select"
+                    th:errorclass="is-invalid"
+                    th:field="*{replaces}"
+                    aria-describedby="replacesHelpBlock"
+                    th:classappend="${#fields.hasErrors('replaces*')} ? 'is-invalid'">
                 <option value="">Select an asset collection id...</option>
                 <option th:each="assetCollectionId : ${replacesIds}"
                         th:text="${assetCollectionId}"
                         th:value="${assetCollectionId}">
                 </option>
             </select>
+            <div th:if="${#fields.hasErrors('replaces*')}" class="invalid-feedback">
+                <ul>
+                    <li th:each="err : ${#fields.errors('replaces*')}" th:text="${err}"></li>
+                </ul>
+            </div>
         </div>
         <div class="mb-3">
             <label for="enhances" class="form-label">Enhances</label>
             <div id="enhancesHelpBlock" class="form-text">
                 This node's content enhances all nodes that match these wildcards, rather than being a standalone item of its own.
             </div>
-            <select id="enhances" multiple class="form-select" th:errorclass="is-invalid" th:field="*{enhances}" aria-describedby="enhancesHelpBlock">
+            <select
+                    id="enhances"
+                    multiple
+                    class="form-select"
+                    th:errorclass="is-invalid"
+                    th:field="*{enhances}"
+                    aria-describedby="enhancesHelpBlock"
+                    th:classappend="${#fields.hasErrors('replaces*')} ? 'is-invalid'">
                 <option value="">Select an asset collection id...</option>
                 <option th:each="assetCollectionId : ${enhancesIds}"
                         th:text="${assetCollectionId}"
                         th:value="${assetCollectionId}">
                 </option>
             </select>
+            <div th:if="${#fields.hasErrors('enhances*')}" class="invalid-feedback">
+                <ul>
+                    <li th:each="err : ${#fields.errors('enhances*')}" th:text="${err}"></li>
+                </ul>
+            </div>
         </div>
         <div class="mb-3">
             <label for="summary" class="form-label">Summary</label>
@@ -94,6 +118,7 @@
     var settings = {
         create: true,
         persist: false,
+        createFilter: "^asset_collection:((?:[a-z][a-z0-9_]*|\\*)(?:\\/(?:[a-z][a-z0-9_]*|\\*|\\*\\*)){1,4})$"
     };
     new TomSelect('#replaces',settings);
     new TomSelect('#enhances',settings);
