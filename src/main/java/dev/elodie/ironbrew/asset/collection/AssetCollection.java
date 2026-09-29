@@ -11,10 +11,18 @@ import java.util.UUID;
 
 @Entity
 @Table(
-        name = "asset_collections"
+        name = "asset_collections",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = AssetCollection.UNIQUE_NAME_CONSTRAINT,
+                        columnNames = {"rules_package_id", "name"}
+                )
+        }
 )
 @Getter @Setter @NoArgsConstructor
 public class AssetCollection {
+    public static final String UNIQUE_NAME_CONSTRAINT = "asset_collection_rules_package_name_uk";
+
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 

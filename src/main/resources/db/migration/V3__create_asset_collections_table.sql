@@ -14,3 +14,6 @@ CREATE TABLE asset_collections
 
 ALTER TABLE asset_collections
     ADD CONSTRAINT ASSET_COLLECTION_RULES_PACKAGE_ID_FK FOREIGN KEY (rules_package_id) REFERENCES rules_packages (id) ON DELETE CASCADE;
+
+ALTER TABLE asset_collections
+    ADD CONSTRAINT asset_collection_rules_package_name_uk UNIQUE (rules_package_id, name);
