@@ -47,14 +47,17 @@ public class RulesPackageService {
         rulesPackageRepository.save(expansion);
     }
 
+    @PreAuthorize("hasPermission(#id, 'Expansion', 'update')")
     public ExpansionUpdateRequest getExpansionRequestById(UUID id){
         return rulesPackageRepository.findExpansionRequestById(id).orElseThrow(ResourceNotFoundException::new);
     }
 
+    @PreAuthorize("hasPermission(#id, 'Expansion', 'read')")
     public String getExpansionTitle(UUID id){
         return rulesPackageRepository.findTitleById(id);
     }
 
+    @PreAuthorize("hasPermission(#id, 'Expansion', 'read')")
     public String getRuleset(UUID id){
         return rulesPackageRepository.findRulesetById(id);
     }
