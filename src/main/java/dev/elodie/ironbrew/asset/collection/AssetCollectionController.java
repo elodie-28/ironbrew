@@ -75,7 +75,7 @@ public class AssetCollectionController {
 
     @GetMapping("/asset-collections/{id}/edit")
     public String editAssetCollection(@PathVariable UUID id, Model model) {
-        AssetCollectionRequest assetCollection = assetCollectionService.findAssetCollectionRequestByRulesPackageId(id);
+        AssetCollectionRequest assetCollection = assetCollectionService.findAssetCollectionRequestById(id);
 
         UUID expansionId = assetCollectionService.findRulesPackageIdById(id);
 

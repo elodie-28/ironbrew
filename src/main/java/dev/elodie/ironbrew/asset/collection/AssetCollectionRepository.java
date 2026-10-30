@@ -22,4 +22,7 @@ public interface AssetCollectionRepository extends JpaRepository<AssetCollection
 
     @Query("SELECT new dev.elodie.ironbrew.asset.collection.AssetCollectionRequest(name, canonicalName, color, replaces, enhances, summary, description) FROM AssetCollection where id = :id")
     Optional<AssetCollectionRequest> findAssetCollectionRequestById(UUID id);
+
+    @Query("SELECT rulesPackage.owner.email FROM AssetCollection")
+    String findOwnerEmailById(UUID id);
 }
