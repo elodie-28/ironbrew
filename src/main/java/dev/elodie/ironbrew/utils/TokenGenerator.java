@@ -7,8 +7,9 @@ import java.util.Base64;
 
 @Component
 public class TokenGenerator {
+    private final SecureRandom secureRandom = new SecureRandom();
+
     public String generateToken() {
-        SecureRandom secureRandom = new SecureRandom();
         byte[] bytes = new byte[64];
         secureRandom.nextBytes(bytes);
 
