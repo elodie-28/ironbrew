@@ -14,6 +14,18 @@ services:
     ports:
       - 8025:8025
       - 1025:1025
+  app:
+    build: .
+    ports:
+      - 8080:8080
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/ironbrew
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=password
+    depends_on:
+      - postgres-db
+
 
 volumes:
   postgresql_data:
