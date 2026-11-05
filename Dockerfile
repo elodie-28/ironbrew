@@ -6,4 +6,4 @@ WORKDIR /app
 RUN chown -R javauser:javauser /app
 USER javauser
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","/app.jar"]
+ENTRYPOINT ["java","-jar","ironbrew.jar"]
