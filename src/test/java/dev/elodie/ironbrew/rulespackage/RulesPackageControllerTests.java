@@ -1,6 +1,5 @@
-package dev.elodie.ironbrew;
+package dev.elodie.ironbrew.rulespackage;
 
-import dev.elodie.ironbrew.rulespackage.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

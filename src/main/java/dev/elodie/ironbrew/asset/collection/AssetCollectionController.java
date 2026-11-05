@@ -21,7 +21,7 @@ public class AssetCollectionController {
     private final RulesPackageService rulesPackageService;
 
     @GetMapping("/expansions/{id}/asset-collections")
-    public String assetCollections(@PathVariable UUID id, Model model) {
+    public String list(@PathVariable UUID id, Model model) {
         List<AssetCollectionResponse> assetCollections = assetCollectionService.findAllAssetCollectionResponseByRulesPackageId(id);
         String title = rulesPackageService.getExpansionTitle(id);
         model.addAttribute("assetCollections", assetCollections);
@@ -38,7 +38,7 @@ public class AssetCollectionController {
     }
 
     @PostMapping("/expansions/{id}/asset-collections")
-    public String saveAssetCollection(
+    public String create(
             @PathVariable("id") UUID expansionId,
             @ModelAttribute("assetCollection") @Valid AssetCollectionRequest assetCollection,
             BindingResult bindingResult,
@@ -60,7 +60,7 @@ public class AssetCollectionController {
     }
 
     @GetMapping("/asset-collections/{id}")
-    public String findAssetCollectionById(@PathVariable UUID id, Model model) {
+    public String view(@PathVariable UUID id, Model model) {
         AssetCollectionResponse assetCollection = assetCollectionService.findAssetCollectionResponseById(id);
         model.addAttribute("assetCollection", assetCollection);
 
@@ -74,7 +74,7 @@ public class AssetCollectionController {
     }
 
     @GetMapping("/asset-collections/{id}/edit")
-    public String editAssetCollection(@PathVariable UUID id, Model model) {
+    public String edit(@PathVariable UUID id, Model model) {
         AssetCollectionRequest assetCollection = assetCollectionService.findAssetCollectionRequestById(id);
 
         UUID expansionId = assetCollectionService.findRulesPackageIdById(id);
@@ -83,7 +83,7 @@ public class AssetCollectionController {
     }
 
     @PostMapping("/asset-collections/{id}")
-    public String updateAssetCollection(
+    public String save(
             @PathVariable("id") UUID id,
             @ModelAttribute("assetCollection") @Valid AssetCollectionRequest assetCollection,
             BindingResult bindingResult,
@@ -108,7 +108,7 @@ public class AssetCollectionController {
     }
 
     @PostMapping("/asset-collections/{id}/delete")
-    public String deleteAssetCollection(
+    public String delete(
             @PathVariable("id") UUID id,
             RedirectAttributes redirectAttributes
     ) {

@@ -67,7 +67,6 @@ public class AssetCollectionService {
                 throw new NameAlreadyTakenException();
             }
         }
-
     }
 
     @PreAuthorize("hasPermission(#id, 'AssetCollection', 'delete')")

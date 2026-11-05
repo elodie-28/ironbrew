@@ -1,7 +1,6 @@
-package dev.elodie.ironbrew;
+package dev.elodie.ironbrew.rulespackage;
 
 import dev.elodie.ironbrew.exception.ResourceNotFoundException;
-import dev.elodie.ironbrew.rulespackage.*;
 import dev.elodie.ironbrew.security.user.User;
 import dev.elodie.ironbrew.security.user.UserService;
 import org.junit.jupiter.api.Nested;
